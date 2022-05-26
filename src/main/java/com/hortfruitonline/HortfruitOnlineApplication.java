@@ -1,7 +1,11 @@
-package com.example.hortfruitonline;
+package com.hortfruitonline;
 
-import com.example.hortfruitonline.model.*;
-import com.example.hortfruitonline.respository.*;
+import com.hortfruitonline.model.*;
+import com.hortfruitonline.respository.*;
+import com.hortfruitonline.model.*;
+import com.hortfruitonline.respository.CategoriaRepository;
+import com.hortfruitonline.respository.PedidoRepository;
+import com.hortfruitonline.respository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;

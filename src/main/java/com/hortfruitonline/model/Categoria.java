@@ -1,4 +1,4 @@
-package com.example.hortfruitonline.model;
+package com.hortfruitonline.model;
 
 import java.util.List;
 
