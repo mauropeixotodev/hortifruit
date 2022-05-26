@@ -1,4 +1,4 @@
-package com.hortfruitonline.model;
+package com.fpsoluctionstechs.hortfruitonline.model;
 
 import java.math.BigDecimal;
 import java.util.List;

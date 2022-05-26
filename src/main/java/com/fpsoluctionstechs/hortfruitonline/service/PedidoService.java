@@ -1,13 +1,11 @@
-package com.hortfruitonline.service;
+package com.fpsoluctionstechs.hortfruitonline.service;
 
-import com.hortfruitonline.model.*;
-import com.hortfruitonline.model.Pedido;
-import com.hortfruitonline.model.ProdutoPedido;
-import com.hortfruitonline.respository.MedidaRepository;
-import com.hortfruitonline.respository.PedidoRepository;
-import com.hortfruitonline.model.Endereco;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import com.fpsoluctionstechs.hortfruitonline.model.*;
+import com.fpsoluctionstechs.hortfruitonline.respository.MedidaRepository;
+import com.fpsoluctionstechs.hortfruitonline.respository.PedidoRepository;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

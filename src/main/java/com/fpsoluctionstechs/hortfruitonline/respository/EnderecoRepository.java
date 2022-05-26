@@ -1,7 +1,8 @@
-package com.hortfruitonline.respository;
+package com.fpsoluctionstechs.hortfruitonline.respository;
 
-import com.hortfruitonline.model.Endereco;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.fpsoluctionstechs.hortfruitonline.model.Endereco;
 
 public interface EnderecoRepository extends JpaRepository<Endereco, Long> {
 

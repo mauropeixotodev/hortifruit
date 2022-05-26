@@ -1,4 +1,4 @@
-package com.hortfruitonline.model;
+package com.fpsoluctionstechs.hortfruitonline.model;
 
 import java.util.List;
 

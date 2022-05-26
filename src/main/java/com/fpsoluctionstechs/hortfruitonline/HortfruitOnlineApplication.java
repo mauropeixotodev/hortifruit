@@ -1,17 +1,14 @@
-package com.hortfruitonline;
+package com.fpsoluctionstechs.hortfruitonline;
 
-import com.hortfruitonline.model.*;
-import com.hortfruitonline.respository.*;
-import com.hortfruitonline.model.*;
-import com.hortfruitonline.respository.CategoriaRepository;
-import com.hortfruitonline.respository.PedidoRepository;
-import com.hortfruitonline.respository.ProdutoRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
+
+import com.fpsoluctionstechs.hortfruitonline.model.*;
+import com.fpsoluctionstechs.hortfruitonline.respository.*;
 
 import java.math.BigDecimal;
 import java.util.Arrays;

@@ -1,7 +1,8 @@
-package com.hortfruitonline.respository;
+package com.fpsoluctionstechs.hortfruitonline.respository;
 
-import com.hortfruitonline.model.ProdutoPedido;
 import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.fpsoluctionstechs.hortfruitonline.model.ProdutoPedido;
 
 public interface ProdutoPedidoRepository extends JpaRepository<ProdutoPedido, Long> {
 
