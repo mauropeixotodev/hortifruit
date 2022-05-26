@@ -13,10 +13,12 @@ import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Medida {
 
@@ -25,13 +27,11 @@ public class Medida {
 	@SequenceGenerator(name = "medida_seq", sequenceName = "medida_seq", allocationSize = 1)
 	private Long id;
 
-	private String tipo;
-
-	private BigDecimal valor;
-
-	private BigDecimal preco;
-
 	@ManyToOne
 	@JoinColumn(name = "produto_id", referencedColumnName = "id", nullable = false)
 	private Produto produto;
+
+	private String descricao;
+	private BigDecimal unidadeEmGramas;
+	private BigDecimal preco;
 }

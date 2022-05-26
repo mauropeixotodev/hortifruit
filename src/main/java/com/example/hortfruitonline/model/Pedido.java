@@ -16,10 +16,12 @@ import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Pedido {
 	@Id
@@ -27,15 +29,20 @@ public class Pedido {
 	@SequenceGenerator(name = "pedido_seq", sequenceName = "pedido_seq", allocationSize = 1)
 	private Long id;
 
-	@OneToMany(mappedBy = "pedido")
+	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ProdutoPedido> produtoPedidos;
 
-	private String contato;
-
-	private String cliente;
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	private Endereco endereco;
 
-	private BigDecimal valor;
+	private String contato;
+	private String cliente;
+	private BigDecimal valorTotal;
+
+	//todo remover quando criar o PedidoService pois o Pedido do ProdutoPedito será definido lá
+	public void setProdutoPedidos(List<ProdutoPedido> produtoPedidos) {
+		produtoPedidos.forEach(produtoPedido -> produtoPedido.setPedido(this));
+		this.produtoPedidos = produtoPedidos;
+	}
 }

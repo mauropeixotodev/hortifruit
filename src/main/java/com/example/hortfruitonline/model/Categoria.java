@@ -12,10 +12,12 @@ import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
 @Builder
 @AllArgsConstructor
+@NoArgsConstructor
 @Entity
 public class Categoria {
 
@@ -23,8 +25,10 @@ public class Categoria {
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_seq")
 	@SequenceGenerator(name = "categoria_seq", sequenceName = "categoria_seq", allocationSize = 1)
 	private Long id;
-	private String nome;
+
 	@ManyToMany(mappedBy = "categorias")
 	private List<Produto> produtos;
+
+	private String nome;
 
 }
