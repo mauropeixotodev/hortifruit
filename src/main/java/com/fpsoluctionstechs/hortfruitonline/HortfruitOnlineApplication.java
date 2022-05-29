@@ -24,6 +24,7 @@ public class HortfruitOnlineApplication {
 
 	@Autowired
 	PedidoRepository pedidoRepository;
+	
 
 	public static void main(String[] args) {
 		SpringApplication.run(HortfruitOnlineApplication.class, args);

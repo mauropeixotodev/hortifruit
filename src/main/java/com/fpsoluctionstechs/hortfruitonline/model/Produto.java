@@ -11,7 +11,6 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Entity
-@EqualsAndHashCode(onlyExplicitlyIncluded = true) //todo anotar as demais classe também
 public class Produto {
 
 	@Id
@@ -20,7 +19,7 @@ public class Produto {
 	@EqualsAndHashCode.Include //todo anotar as demais classe também
 	private Long id;
 
-	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL)
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
 	private List<Medida> medidas;
 
 	@ManyToMany
@@ -39,9 +38,14 @@ public class Produto {
 //		setMedidas(medidas);
 //	}
 //
-//	public void setMedidas(List<Medida> medidas) {
-//		medidas.forEach(medida -> medida.setProduto(this));
-//		this.medidas = medidas;
-//	}
+	public void setMedidas(List<Medida> medidas) {
+		if(this.medidas != null) {
+			this.medidas.clear();
+			this.medidas.addAll(medidas);
+			return;
+		}
+		
+		this.medidas = medidas;
+	}
 
 }
