@@ -18,6 +18,8 @@ public class ProdutoRequest {
 	@NonNull
 	private String descricao;
 	@NonNull
+	private String imagem;
+	@NonNull
 	private List<CategoriaProdutoRequest> categorias;
 	@NonNull
 	private List<MedidaRequest> medidas;

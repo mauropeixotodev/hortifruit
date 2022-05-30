@@ -21,6 +21,7 @@ import org.springframework.web.util.UriComponentsBuilder;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.AtualizarCategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponseGet;
 import com.fpsoluctionstechs.hortfruitonline.service.CategoriaService;
 
 @RestController
@@ -49,7 +50,7 @@ public class CategoriaController {
 	}
 
 	@GetMapping("")
-	public List<CategoriaResponse> listar() {
+	public List<CategoriaResponseGet> listar() {
 		return categoriaService.buscarCategorias();
 	}
 

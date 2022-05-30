@@ -13,6 +13,7 @@ import java.util.Optional;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.AtualizarCategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponseGet;
 import com.fpsoluctionstechs.hortfruitonline.model.Categoria;
 import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
 
@@ -20,14 +21,17 @@ import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
 public class CategoriaService {
 
 	@Autowired
+	ProdutoService produtoService;
+	
+	@Autowired
 	CategoriaRepository categoriaRepository;
 
 	public CategoriaResponse salvar(CategoriaRequest categoriaRequest) {
 		return builderCategoriaResponse(categoriaRepository.save(builderCategoria(categoriaRequest)));
 	}
 
-	public List<CategoriaResponse> buscarCategorias() {
-		return categoriaRepository.findAll().stream().map(categoria -> builderCategoriaResponse(categoria))
+	public List<CategoriaResponseGet> buscarCategorias() {
+		return categoriaRepository.findAll().stream().map(categoria -> builderCategoriaResponseGet(categoria))
 				.collect(Collectors.toList());
 	}
 
@@ -54,6 +58,9 @@ public class CategoriaService {
 
 	private CategoriaResponse builderCategoriaResponse(Categoria categoria) {
 		return CategoriaResponse.builder().id(categoria.getId()).nome(categoria.getNome()).build();
+	}
+	private CategoriaResponseGet builderCategoriaResponseGet(Categoria categoria) {
+		return CategoriaResponseGet.builder().id(categoria.getId()).nome(categoria.getNome()).produtos(produtoService.builderProdutoResponse(categoria.getProdutos())).build();
 	}
 
 	private Categoria builderCategoria(CategoriaRequest categoriaRequest) {

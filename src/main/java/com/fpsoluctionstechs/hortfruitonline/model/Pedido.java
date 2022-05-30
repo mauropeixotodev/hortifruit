@@ -40,9 +40,4 @@ public class Pedido {
 	private String cliente;
 	private BigDecimal valorTotal;
 
-	//todo remover quando criar o PedidoService pois o Pedido do ProdutoPedito será definido lá
-	public void setProdutoPedidos(List<ProdutoPedido> produtoPedidos) {
-		produtoPedidos.forEach(produtoPedido -> produtoPedido.setPedido(this));
-		this.produtoPedidos = produtoPedidos;
-	}
 }

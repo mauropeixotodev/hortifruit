@@ -44,7 +44,8 @@ public class ProdutoService {
 	public Produto builderProduto(ProdutoRequest produtoRequest) {
 
 		Produto produto = Produto.builder().nome(produtoRequest.getNome()).descricao(produtoRequest.getDescricao())
-				.categorias(builderCategoria(produtoRequest.getCategorias())).build();
+				.categorias(builderCategoria(produtoRequest.getCategorias()))
+				.Imagem(produtoRequest.getImagem()).build();
 		produto.setMedidas(builderMedida(produtoRequest.getMedidas(), produto));
 		return produto;
 	}
@@ -52,6 +53,7 @@ public class ProdutoService {
 	public ProdutoResponse builderProdutoResponse(Produto produto) {
 		return ProdutoResponse.builder().id(produto.getId()).descricao(produto.getDescricao()).nome(produto.getNome())
 				.categorias(builderCategoriaResponse(produto.getCategorias()))
+				.imagem(produto.getImagem())
 				.medidas(builderMedidasResponse(produto.getMedidas())).build();
 	}
 
@@ -122,6 +124,9 @@ public class ProdutoService {
 			}
 			if (atualizacaoProdutoRequest.getMedidas().size() != 0) {
 				produto.setMedidas(builderMedida(atualizacaoProdutoRequest.getMedidas(), produto));
+			}
+			if(atualizacaoProdutoRequest.getImagem() != null) {
+				produto.setImagem(atualizacaoProdutoRequest.getImagem());
 			}
 
 			return builderProdutoResponse(produto);

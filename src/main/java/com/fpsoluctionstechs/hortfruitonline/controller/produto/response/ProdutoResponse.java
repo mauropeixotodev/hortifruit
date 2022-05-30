@@ -14,6 +14,8 @@ public class ProdutoResponse {
    
 	private Long id;
 	
+	private String imagem;
+	
 	private String nome;
 
 	private String descricao;

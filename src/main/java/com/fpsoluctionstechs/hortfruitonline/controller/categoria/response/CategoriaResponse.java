@@ -1,5 +1,6 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.categoria.response;
 
+
 import lombok.Builder;
 import lombok.Data;
 

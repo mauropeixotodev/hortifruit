@@ -3,76 +3,164 @@ package com.fpsoluctionstechs.hortfruitonline.service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.endereco.response.EnderecoResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.response.ProdutoPedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
-import com.fpsoluctionstechs.hortfruitonline.respository.MedidaRepository;
 import com.fpsoluctionstechs.hortfruitonline.respository.PedidoRepository;
+import com.fpsoluctionstechs.hortfruitonline.respository.ProdutoRepository;
 
 import java.math.BigDecimal;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
+
+import javax.persistence.EntityNotFoundException;
 
 @Service
 public class PedidoService {
+	
+	@Autowired
+	ProdutoService produtoService;
+	
+	@Autowired
+	private PedidoRepository pedidoRepository;
+	@Autowired
+	private ProdutoRepository produtoRepository;
+	
+	public List<PedidoResponse> listar(){
+		return builderPedidoResponse(pedidoRepository.findAll());
+	}
+	
+	
+	
+	public PedidoResponse salvarPedido(PedidoRequest pedidoRequest) {
+		
+		return builderPedidoResponse(pedidoRepository.save(builderPedido(pedidoRequest)));
+	}
+	
+	private List<PedidoResponse> builderPedidoResponse(List<Pedido> pedidos) {
+		return pedidos.stream().map(pedido -> builderPedidoResponse(pedido)).collect(Collectors.toList());
+		
+	}
+	
+	
+	private PedidoResponse builderPedidoResponse(Pedido pedido) {
+		
+		return PedidoResponse.builder()
+				.cliente(pedido.getCliente())
+				.contato(pedido.getContato())
+				.endereco(builderEnderecoResponse(pedido.getEndereco()))
+				.id(pedido.getId())
+				.valorTotal(pedido.getValorTotal())
+				.produtosPedidos(builderProdutoPedidoResponse(pedido.getProdutoPedidos()))
+				.build();
+		
+		
+		
+	}
+	
+	private List<ProdutoPedidoResponse> builderProdutoPedidoResponse(List<ProdutoPedido> produtoPedidos){
+		return produtoPedidos.stream().map(produtoPedido -> builderProdutoPedidoResponse(produtoPedido)).collect(Collectors.toList());
+		
+	}
+	
+	private ProdutoPedidoResponse builderProdutoPedidoResponse(ProdutoPedido produtoPedido ) {
+		
+		return ProdutoPedidoResponse.builder()
+				.id(produtoPedido.getId())
+				.precoTotal(produtoPedido.getPrecoTotal())
+				.precoUnidade(produtoPedido.getPrecoUnidade())
+				.quantidade(produtoPedido.getQuantidade())
+				.totalMedidaGrama(produtoPedido.getTotalMedidaGrama())
+				.unidadeMedidaGrama(produtoPedido.getUnidadeMedidaGrama())
+				.produto(produtoService.builderProdutoResponse(produtoPedido.getProduto()))
+				.build();
+		
+		
+	}
+	
+	private EnderecoResponse builderEnderecoResponse(Endereco endereco) {
+		
+		return EnderecoResponse.builder()
+				.bairro(endereco.getBairro())
+				.complemento(endereco.getComplemento())
+				.logradouro(endereco.getLogradouro())
+				.numero(endereco.getNumero())
+				.referencia(endereco.getReferencia())
+				.latitude(endereco.getLatitude())
+				.longitude(endereco.getLongitude())
+				.id(endereco.getId())
+				.build();
+		
+	}
+	
+	
 
-    @Autowired
-    private PedidoRepository pedidoRepository;
+	private Pedido builderPedido(PedidoRequest pedidoRequest) {
+	Pedido pedido =	Pedido.builder()
+		.cliente(pedidoRequest.getCliente())
+		.contato(pedidoRequest.getContato())
+		.endereco(builderEndereco(pedidoRequest.getEndereco()))
+		.build();
+		pedido.setProdutoPedidos(builderProdutoPedido(pedidoRequest.getProdutoPedidos(), pedido ));
+		pedido.setValorTotal(pedido.getProdutoPedidos().stream().map(produtoPedido -> produtoPedido.getPrecoTotal()).reduce(BigDecimal.valueOf(0), BigDecimal::add));
+		return pedido;
 
-    private MedidaRepository medidaRepository;
+	}
+	
+	
+	private List<ProdutoPedido> builderProdutoPedido(List<ProdutoPedidoRequest> produtoPedidoRequests, Pedido pedido){
+		
+		return produtoPedidoRequests.stream().map(produtoPedidoRequest -> builderProdutoPedido(produtoPedidoRequest, pedido)).collect(Collectors.toList());
+		
+	}
+	
+	private ProdutoPedido builderProdutoPedido(ProdutoPedidoRequest produtoPedidoRequest, Pedido pedido ) {
+		Produto produto = builderProduto(produtoPedidoRequest);
+		return ProdutoPedido.builder()
+				.pedido(pedido)
+				.unidadeMedidaGrama(produto.getMedidas().get(0).getUnidadeEmGramas())
+				.produto(produto)
+				.quantidade(produtoPedidoRequest.getQuantidade())
+				.precoUnidade(produto.getMedidas().get(0).getPreco())
+				.precoTotal(produto.getMedidas().get(0).getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.totalMedidaGrama(produto.getMedidas().get(0).getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.build();
+	}
+	
+	private Produto builderProduto(ProdutoPedidoRequest produtoPedidoRequest) {
+	Optional<Produto> optional = produtoRepository.findById(produtoPedidoRequest.getProduto().getId());
+	if(optional.isPresent()) {
+		return optional.get();
+	}
 
-    //todo recebe o form com todos os dados do pedido
-    public Pedido salvar(){
-        Pedido pedido = Pedido.builder()
-                .cliente("Mauro")
-                .contato("83981818282")
-                .endereco(Endereco.builder()
-                        .referencia("Rua Nove")
-                        .bairro("Inhauma")
-                        .complemento("")
-                        .latitude(-22.860975092682903)
-                        .longitude(-43.26979270245136)
-                        .numero("2b")
-                        .referencia("Completo do Alemão")
-                        .build()
-                )
-                .build();
+	throw new EntityNotFoundException("Produto não encontrado");
+		
+	}
+	
+	
+	private Endereco builderEndereco(EnderecoRequest enderecoRequest) {
+		return Endereco.builder()
+				.bairro(enderecoRequest.getBairro())
+				.complemento(enderecoRequest.getComplemento())
+				.logradouro(enderecoRequest.getLogradouro())
+				.latitude(enderecoRequest.getLatitude())
+				.longitude(enderecoRequest.getLongitude())
+				.numero(enderecoRequest.getNumero())
+				.referencia(enderecoRequest.getReferencia())
+				.build();
+	}
+	
+	
+	
+	
+	
+	
+	
+	
 
-
-        pedido.setProdutoPedidos(builderProdutoPedidos());
-
-        pedido.setValorTotal(calcularValorTotalPedido(pedido));
-
-       return pedidoRepository.save(pedido);
-    }
-
-    private BigDecimal calcularValorTotalPedido(Pedido pedido){
-        return pedido.getProdutoPedidos().stream().map(produtoPedido -> produtoPedido.getPrecoTotal()).reduce(BigDecimal.valueOf(0), BigDecimal::add);
-    }
-
-    private List<ProdutoPedido> builderProdutoPedidos(){
-
-        List<ProdutoPedido> produtoPedidos = Arrays.asList();
-
-//        formPedido.getProdutoPedido().foreach(produtoPeditoForm-> {
-//
-//           Optional<Medida> medidaOptional = medidaRepository.findById(produtoPeditoForm.getMedida().getId());
-//
-//           if (!medidaOptional.isPresent())
-//               throw new Exception("Medida não encontrada");
-//
-//           Medida medida = medidaOptional.get();
-//
-//            produtoPedidos.add(
-//                    ProdutoPedido.builder()
-//                    .unidadeMedidaGrama(medida.getUnidadeEmGramas())
-//                    .produto(Produto.builder().id(produtoPeditoForm.getProduto().getId()).build())
-//                    .quantidade(2)
-//                    .precoUnidade(medida.getPreco())
-//                    .precoTotal(medida.getPreco().multiply(BigDecimal.valueOf(2)))
-//                    .totalMedidaGrama(medida.getUnidadeEmGramas().multiply(BigDecimal.valueOf(2)))
-//                    .build()
-//            );
-//        });
-
-       return produtoPedidos;
-    }
 }
