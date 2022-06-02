@@ -121,14 +121,16 @@ public class PedidoService {
 	
 	private ProdutoPedido builderProdutoPedido(ProdutoPedidoRequest produtoPedidoRequest, Pedido pedido ) {
 		Produto produto = builderProduto(produtoPedidoRequest);
+		List<Medida> medidas =  produto.getMedidas().stream().filter(medida -> medida.getId() == produtoPedidoRequest.getMedida().getId()).collect(Collectors.toList());
+		Medida medida = medidas.get(0);
 		return ProdutoPedido.builder()
 				.pedido(pedido)
-				.unidadeMedidaGrama(produto.getMedidas().get(0).getUnidadeEmGramas())
+				.unidadeMedidaGrama(medida.getUnidadeEmGramas())
 				.produto(produto)
 				.quantidade(produtoPedidoRequest.getQuantidade())
-				.precoUnidade(produto.getMedidas().get(0).getPreco())
-				.precoTotal(produto.getMedidas().get(0).getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
-				.totalMedidaGrama(produto.getMedidas().get(0).getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.precoUnidade(medida.getPreco())
+				.precoTotal(medida.getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.totalMedidaGrama(medida.getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
 				.build();
 	}
 	
