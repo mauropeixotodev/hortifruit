@@ -10,4 +10,6 @@ import lombok.NoArgsConstructor;
 public class CategoriaRequest {
 	@NonNull
 	private String nome;
+	@NonNull
+	private int orderExibicao;
 }

@@ -9,5 +9,6 @@ import lombok.Data;
 public class CategoriaResponse {
 	private Long id;
 	private String nome;
+	private int orderExibicao;
 
 }

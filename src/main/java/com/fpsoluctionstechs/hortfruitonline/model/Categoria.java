@@ -30,5 +30,7 @@ public class Categoria {
 	private List<Produto> produtos;
 
 	private String nome;
+	
+	private int orderExibicao;
 
 }

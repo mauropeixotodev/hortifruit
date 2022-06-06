@@ -12,6 +12,8 @@ import lombok.Data;
 @Builder
 public class MedidaResponse {
 
+	private Long id;
+	
 	private String descricao;
 
 	private BigDecimal unidadeEmGramas;

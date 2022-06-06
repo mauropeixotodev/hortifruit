@@ -88,7 +88,7 @@ public class ProdutoService {
 	}
 
 	public MedidaResponse builderMedidaResponse(Medida medida) {
-		return MedidaResponse.builder().descricao(medida.getDescricao()).preco(medida.getPreco())
+		return MedidaResponse.builder().id(medida.getId()).descricao(medida.getDescricao()).preco(medida.getPreco())
 				.unidadeEmGramas(medida.getUnidadeEmGramas()).build();
 	}
 
