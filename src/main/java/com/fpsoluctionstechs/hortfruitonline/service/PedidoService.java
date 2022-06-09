@@ -5,10 +5,12 @@ import org.springframework.stereotype.Service;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.response.EnderecoResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.response.ProdutoPedidoResponse;
+import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
 import com.fpsoluctionstechs.hortfruitonline.respository.PedidoRepository;
 import com.fpsoluctionstechs.hortfruitonline.respository.ProdutoRepository;
@@ -19,6 +21,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 
 @Service
 public class PedidoService {
@@ -57,6 +60,9 @@ public class PedidoService {
 				.id(pedido.getId())
 				.valorTotal(pedido.getValorTotal())
 				.produtosPedidos(builderProdutoPedidoResponse(pedido.getProdutoPedidos()))
+				.dataCriacao(pedido.getDataCriacao())
+				.dataAtualizacao(pedido.getDataAtualizacao())
+				.status(pedido.getStatus())
 				.build();
 		
 		
@@ -105,6 +111,7 @@ public class PedidoService {
 		.cliente(pedidoRequest.getCliente())
 		.contato(pedidoRequest.getContato())
 		.endereco(builderEndereco(pedidoRequest.getEndereco()))
+		.status(StatusPedido.AGURADANDO_PROCESSAMENTO)
 		.build();
 		pedido.setProdutoPedidos(builderProdutoPedido(pedidoRequest.getProdutoPedidos(), pedido ));
 		pedido.setValorTotal(pedido.getProdutoPedidos().stream().map(produtoPedido -> produtoPedido.getPrecoTotal()).reduce(BigDecimal.valueOf(0), BigDecimal::add));
@@ -156,13 +163,15 @@ public class PedidoService {
 				.referencia(enderecoRequest.getReferencia())
 				.build();
 	}
+	@Transactional
+	public PedidoResponse atualizarStatusPedido(PedidoAtualizacaoStatusRequest pedidoAtualizacaoStatusRequest) {
+		    Optional<Pedido> optional = pedidoRepository.findById(pedidoAtualizacaoStatusRequest.getId());
+		     if(optional.isPresent()) {
+		    	 Pedido pedido = optional.get();
+		    	 pedido.setStatus(pedidoAtualizacaoStatusRequest.getStatus());
+		    	 return builderPedidoResponse(pedido);
+		     }
+		 	throw new EntityNotFoundException("Pedido não encontrado");
+	}
 	
-	
-	
-	
-	
-	
-	
-	
-
 }

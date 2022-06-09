@@ -1,6 +1,7 @@
 package com.fpsoluctionstechs.hortfruitonline.model;
 
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import javax.persistence.CascadeType;
@@ -12,6 +13,11 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.SequenceGenerator;
+
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -35,6 +41,14 @@ public class Pedido {
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	private Endereco endereco;
+	
+    @CreationTimestamp
+    private LocalDate dataCriacao;
+
+    @UpdateTimestamp
+    private LocalDate dataAtualizacao;
+    
+    private StatusPedido status;
 
 	private String contato;
 	private String cliente;
