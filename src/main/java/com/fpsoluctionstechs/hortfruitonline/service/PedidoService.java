@@ -6,6 +6,7 @@ import org.springframework.stereotype.Service;
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.response.EnderecoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
@@ -62,7 +63,7 @@ public class PedidoService {
 				.produtosPedidos(builderProdutoPedidoResponse(pedido.getProdutoPedidos()))
 				.dataCriacao(pedido.getDataCriacao())
 				.dataAtualizacao(pedido.getDataAtualizacao())
-				.status(pedido.getStatus())
+				.status(pedido.getStatus().getDescricao())
 				.build();
 		
 		
@@ -172,6 +173,15 @@ public class PedidoService {
 		    	 return builderPedidoResponse(pedido);
 		     }
 		 	throw new EntityNotFoundException("Pedido não encontrado");
+	}
+	
+	public PedidoResponse buscarPedido(PedidoIdRequest pedidoIdRequest) {
+		   Optional<Pedido> optional = pedidoRepository.findById(pedidoIdRequest.getId());
+		     if(optional.isPresent()) {
+		    	 Pedido pedido = optional.get();
+		    	 return builderPedidoResponse(pedido);
+		     }
+			 	throw new EntityNotFoundException("Pedido não encontrado");
 	}
 	
 }

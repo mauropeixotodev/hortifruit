@@ -50,6 +50,7 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 		    .antMatchers(HttpMethod.GET, "/categoria*").permitAll()
 		    .antMatchers(HttpMethod.POST, "/pedido*").permitAll()
 		    .antMatchers(HttpMethod.GET, "/pedido*").permitAll()
+		    .antMatchers(HttpMethod.POST, "/pedido/id*").permitAll()
 			.anyRequest().authenticated().and()
 			.csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()

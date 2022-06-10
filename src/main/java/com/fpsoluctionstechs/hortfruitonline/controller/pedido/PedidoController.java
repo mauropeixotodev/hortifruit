@@ -1,4 +1,4 @@
-package com.fpsoluctionstechs.hortfruitonline.controller.pedido;
+   package com.fpsoluctionstechs.hortfruitonline.controller.pedido;
 
 import java.net.URI;
 import java.util.List;
@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.service.PedidoService;
@@ -39,6 +40,16 @@ public class PedidoController {
 	@GetMapping("")
 	public List<PedidoResponse> listar() {
 		return PedidoService.listar();
+	}
+	@PostMapping("/id")
+	public ResponseEntity<PedidoResponse> buscar(@RequestBody @Validated PedidoIdRequest pedidoIdRequest,
+			UriComponentsBuilder uriBuilder) throws Exception {
+		try {
+			return ResponseEntity.ok(PedidoService.buscarPedido(pedidoIdRequest));
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	
 	}
 
 	@PutMapping("")
