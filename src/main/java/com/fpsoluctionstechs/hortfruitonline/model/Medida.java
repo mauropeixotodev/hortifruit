@@ -27,11 +27,6 @@ public class Medida {
 	@SequenceGenerator(name = "medida_seq", sequenceName = "medida_seq", allocationSize = 1)
 	private Long id;
 
-	@ManyToOne
-	@JoinColumn(name = "produto_id", referencedColumnName = "id", nullable = false)
-	private Produto produto;
-
-	private String descricao;
+	private String nome;
 	private BigDecimal unidadeEmGramas;
-	private BigDecimal preco;
 }

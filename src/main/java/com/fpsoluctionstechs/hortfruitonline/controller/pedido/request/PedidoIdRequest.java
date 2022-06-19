@@ -1,16 +1,13 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.pedido.request;
 
-
-
-import org.springframework.lang.NonNull;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class PedidoIdRequest {
-	@NonNull
+	@NotNull
 	private Long id;
 
 }

@@ -1,13 +1,7 @@
 package com.fpsoluctionstechs.hortfruitonline.model;
 
 import java.math.BigDecimal;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -21,8 +15,8 @@ import lombok.NoArgsConstructor;
 @Entity
 public class ProdutoPedido {
 	@Id
-	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pp_seq")
-	@SequenceGenerator(name = "pp_seq", sequenceName = "pp_seq", allocationSize = 1)
+	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "produto_pedido_seq")
+	@SequenceGenerator(name = "produto_pedido_seq", sequenceName = "produto_pedido_seq", allocationSize = 1)
 	private Long id;
 	
 	@ManyToOne
@@ -36,6 +30,9 @@ public class ProdutoPedido {
 	private int quantidade;
 	private BigDecimal unidadeMedidaGrama;
 	private BigDecimal precoUnidade;
+
+	@ManyToOne
+	private MedidaProduto medidaProduto;
 
 	private BigDecimal precoTotal;
 	private BigDecimal totalMedidaGrama;

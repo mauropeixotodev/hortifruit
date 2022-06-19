@@ -2,18 +2,17 @@ package com.fpsoluctionstechs.hortfruitonline.controller.produto.request;
 
 import java.util.List;
 
-import org.springframework.lang.NonNull;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaProdutoRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaRequest;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class AtualizacaoProdutoRequest {
-	@NonNull
+	@NotNull
 	private Long id;
 	
 	private String imagem;
@@ -24,7 +23,7 @@ public class AtualizacaoProdutoRequest {
 	
 	private List<CategoriaProdutoRequest> categorias;
 	
-	private List<MedidaRequest> medidas;
+	private List<MedidaProdutoRequest> medidas;
 	
 
 }

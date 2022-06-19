@@ -1,19 +1,16 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.pedido.request;
 
-
-import org.springframework.lang.NonNull;
-
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class PedidoAtualizacaoStatusRequest {
-	@NonNull
+	@NotNull
 	private Long id;
-	@NonNull
+	@NotNull
 	private StatusPedido status;
 
 }

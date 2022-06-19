@@ -22,6 +22,6 @@ public class ProdutoResponse {
 
 	private List<CategoriaResponse> categorias;
 
-	private List<MedidaResponse> medidas;
+	private List<MedidaProdutoResponse> medidas;
 
 }

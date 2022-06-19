@@ -4,6 +4,7 @@ import java.net.URI;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,8 +29,8 @@ public class ProdutoController {
 	ProdutoService produtoService;
 
 	@PostMapping("")
-	public ResponseEntity<ProdutoResponse> cadastro(@RequestBody @Validated ProdutoRequest ProdutoRequest,
-			UriComponentsBuilder uriBuilder) throws Exception {
+	public ResponseEntity<ProdutoResponse> cadastro(@Valid @RequestBody ProdutoRequest ProdutoRequest,
+			UriComponentsBuilder uriBuilder) {
 		ProdutoResponse produto = produtoService.salvarProduto(ProdutoRequest);
 		URI uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
 		return ResponseEntity.created(uri).body(produto);

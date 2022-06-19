@@ -1,28 +1,25 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.pedido.request;
 
-
 import java.util.List;
-
-import org.springframework.lang.NonNull;
-
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
 
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class PedidoRequest {
 	
 	
-	@NonNull
+	@NotNull
 	private List<ProdutoPedidoRequest> produtoPedidos;
-	@NonNull
+	@NotNull
 	private EnderecoRequest endereco;
-	@NonNull
+	@NotNull
 	private String contato;
-	@NonNull
+	@NotNull
 	private String cliente;
 }

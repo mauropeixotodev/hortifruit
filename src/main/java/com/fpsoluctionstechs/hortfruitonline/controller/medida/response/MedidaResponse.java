@@ -13,10 +13,6 @@ import lombok.Data;
 public class MedidaResponse {
 
 	private Long id;
-	
-	private String descricao;
-
+	private String nome;
 	private BigDecimal unidadeEmGramas;
-
-	private BigDecimal preco;
 }

@@ -1,17 +1,18 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.autentication.request;
 
-import org.springframework.lang.NonNull;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import javax.validation.constraints.NotNull;
+
 @Data
 @NoArgsConstructor
 public class UsuarioRequest {
-	@NonNull
+	@NotNull
 	private String username;
-	@NonNull
+	@NotNull
 	private String password;
 
 	public UsernamePasswordAuthenticationToken converter() {

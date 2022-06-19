@@ -1,33 +1,32 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.endereco.request;
 
-import org.springframework.lang.NonNull;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class EnderecoRequest {
 
-	@NonNull
+	@NotNull
 	private String numero;
 
-	@NonNull
+	@NotNull
 	private String logradouro;
 
-	@NonNull
+	@NotNull
 	private String complemento;
 
-	@NonNull
+	@NotNull
 	private String bairro;
 
-	@NonNull
+	@NotNull
 	private String referencia;
 
-	@NonNull
+	@NotNull
 	private double latitude;
 
-	@NonNull
+	@NotNull
 	private double longitude;
 
 }

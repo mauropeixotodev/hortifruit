@@ -1,27 +1,27 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.produto.request;
 
 import java.util.List;
-
-import org.springframework.lang.NonNull;
-
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaProdutoRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaRequest;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+
+import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class ProdutoRequest {
-	@NonNull
+	@NotNull
 	private String nome;
-	@NonNull
+	@NotNull
 	private String descricao;
-	@NonNull
+	@NotNull
 	private String imagem;
-	@NonNull
+	@NotNull
+	@NotEmpty
 	private List<CategoriaProdutoRequest> categorias;
-	@NonNull
-	private List<MedidaRequest> medidas;
+	@NotNull
+	@NotEmpty
+	private List<MedidaProdutoRequest> medidas;
 
 }

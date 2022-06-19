@@ -1,15 +1,14 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.categoria.request;
 
-import org.springframework.lang.NonNull;
-
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import javax.validation.constraints.NotNull;
 
 @Data
 @NoArgsConstructor
 public class CategoriaRequest {
-	@NonNull
+	@NotNull
 	private String nome;
-	@NonNull
+	@NotNull
 	private int orderExibicao;
 }

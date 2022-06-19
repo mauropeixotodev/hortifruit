@@ -129,16 +129,16 @@ public class PedidoService {
 	
 	private ProdutoPedido builderProdutoPedido(ProdutoPedidoRequest produtoPedidoRequest, Pedido pedido ) {
 		Produto produto = builderProduto(produtoPedidoRequest);
-		List<Medida> medidas =  produto.getMedidas().stream().filter(medida -> medida.getId() == produtoPedidoRequest.getMedida().getId()).collect(Collectors.toList());
-		Medida medida = medidas.get(0);
+		List<MedidaProduto> medidas =  produto.getMedidas().stream().filter(medidaProduto -> medidaProduto.getId() == produtoPedidoRequest.getMedida().getId()).collect(Collectors.toList());
+		MedidaProduto medidaProduto = medidas.get(0);
 		return ProdutoPedido.builder()
 				.pedido(pedido)
-				.unidadeMedidaGrama(medida.getUnidadeEmGramas())
+				.unidadeMedidaGrama(medidaProduto.getMedida().getUnidadeEmGramas())
 				.produto(produto)
 				.quantidade(produtoPedidoRequest.getQuantidade())
-				.precoUnidade(medida.getPreco())
-				.precoTotal(medida.getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
-				.totalMedidaGrama(medida.getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.precoUnidade(medidaProduto.getPreco())
+				.precoTotal(medidaProduto.getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.totalMedidaGrama(medidaProduto.getMedida().getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
 				.build();
 	}
 	

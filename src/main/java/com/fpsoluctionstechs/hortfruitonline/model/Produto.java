@@ -19,10 +19,10 @@ public class Produto {
 	@EqualsAndHashCode.Include // todo anotar as demais classe também
 	private Long id;
 	
-	private String Imagem;
+	private String imagem;
 
 	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true)
-	private List<Medida> medidas;
+	private List<MedidaProduto> medidas;
 
 	@ManyToMany
 	@JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
@@ -31,7 +31,7 @@ public class Produto {
 	private String descricao;
 	private String nome;
 
-	public void setMedidas(List<Medida> medidas) {
+	public void setMedidas(List<MedidaProduto> medidas) {
 		if (this.medidas != null) {
 			this.medidas.clear();
 			this.medidas.addAll(medidas);
