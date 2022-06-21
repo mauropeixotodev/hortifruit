@@ -8,7 +8,6 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -25,8 +24,9 @@ import com.fpsoluctionstechs.hortfruitonline.service.ProdutoService;
 @RestController
 @RequestMapping("/produto")
 public class ProdutoController {
+
 	@Autowired
-	ProdutoService produtoService;
+	private ProdutoService produtoService;
 
 	@PostMapping("")
 	public ResponseEntity<ProdutoResponse> cadastro(@Valid @RequestBody ProdutoRequest ProdutoRequest,
@@ -36,26 +36,18 @@ public class ProdutoController {
 		return ResponseEntity.created(uri).body(produto);
 
 	}
+
 	@GetMapping("")
 	public List<ProdutoResponse> listar() {
 		return produtoService.listarProdutos();
 	}
+
 	@PutMapping("")
-	public ResponseEntity<ProdutoResponse> atualizacao(
-			@RequestBody @Validated AtualizacaoProdutoRequest atualizacaoProdutoRequest) throws Exception {
+	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Valid AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
 		try {
 			return ResponseEntity.ok(produtoService.Atualizar(atualizacaoProdutoRequest));
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
 	}
-
-	
-	
-	
-	
-	
-	
-	
-
 }

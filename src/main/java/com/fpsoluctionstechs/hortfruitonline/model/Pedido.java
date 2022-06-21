@@ -4,35 +4,27 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 import java.util.List;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
+import javax.persistence.*;
 
+import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 public class Pedido {
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "pedido_seq")
 	@SequenceGenerator(name = "pedido_seq", sequenceName = "pedido_seq", allocationSize = 1)
+	@EqualsAndHashCode.Include
 	private Long id;
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
@@ -47,7 +39,8 @@ public class Pedido {
 
     @UpdateTimestamp
     private LocalDate dataAtualizacao;
-    
+
+	@Enumerated(value = EnumType.STRING)
     private StatusPedido status;
 
 	private String contato;

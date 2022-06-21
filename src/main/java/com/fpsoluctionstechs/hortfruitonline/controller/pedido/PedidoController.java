@@ -4,10 +4,14 @@ import java.net.URI;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
 
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.ProdutosPedidosRelatorioResponse;
+import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
+import com.fpsoluctionstechs.hortfruitonline.respository.relatorio.PedidosProdutosRelatorio;
+import com.fpsoluctionstechs.hortfruitonline.service.relatorio.PedidosProdutosRelatorioService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -27,11 +31,13 @@ import com.fpsoluctionstechs.hortfruitonline.service.PedidoService;
 public class PedidoController {
 
 	@Autowired
-	PedidoService PedidoService;
+	private PedidoService PedidoService;
+
+	@Autowired
+	private PedidosProdutosRelatorioService pedidosProdutosRelatorioService;
 
 	@PostMapping("")
-	public ResponseEntity<PedidoResponse> cadastro(@RequestBody @Validated PedidoRequest pedidoRequest,
-			UriComponentsBuilder uriBuilder) throws Exception {
+	public ResponseEntity<PedidoResponse> cadastro(@RequestBody @Valid PedidoRequest pedidoRequest, UriComponentsBuilder uriBuilder){
 		PedidoResponse pedido = PedidoService.salvarPedido(pedidoRequest);
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getId()).toUri();
 		return ResponseEntity.created(uri).body(pedido);
@@ -41,9 +47,9 @@ public class PedidoController {
 	public List<PedidoResponse> listar() {
 		return PedidoService.listar();
 	}
+
 	@PostMapping("/id")
-	public ResponseEntity<PedidoResponse> buscar(@RequestBody @Validated PedidoIdRequest pedidoIdRequest,
-			UriComponentsBuilder uriBuilder) throws Exception {
+	public ResponseEntity<PedidoResponse> buscar(@RequestBody @Valid PedidoIdRequest pedidoIdRequest){
 		try {
 			return ResponseEntity.ok(PedidoService.buscarPedido(pedidoIdRequest));
 		} catch (EntityNotFoundException e) {
@@ -53,13 +59,17 @@ public class PedidoController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<PedidoResponse> atualizacao(
-			@RequestBody @Validated PedidoAtualizacaoStatusRequest pedidoAtualizacaoStatusRequest) throws Exception {
+	public ResponseEntity<PedidoResponse> atualizacao(@RequestBody @Valid PedidoAtualizacaoStatusRequest pedidoAtualizacaoStatusRequest) {
 		try {
 			return ResponseEntity.ok(PedidoService.atualizarStatusPedido(pedidoAtualizacaoStatusRequest));
 		} catch (EntityNotFoundException e) {
 			return ResponseEntity.notFound().build();
 		}
+	}
+
+	@GetMapping("/relatorio")
+	public List<ProdutosPedidosRelatorioResponse> relatorio() {
+		return pedidosProdutosRelatorioService.filtrarProdutosPedidosByStatus(StatusPedido.AGURADANDO_PROCESSAMENTO);
 	}
 
 }

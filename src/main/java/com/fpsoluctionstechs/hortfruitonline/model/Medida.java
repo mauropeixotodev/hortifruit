@@ -10,21 +10,21 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 public class Medida {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "medida_seq")
 	@SequenceGenerator(name = "medida_seq", sequenceName = "medida_seq", allocationSize = 1)
+	@EqualsAndHashCode.Include
 	private Long id;
 
 	private String nome;

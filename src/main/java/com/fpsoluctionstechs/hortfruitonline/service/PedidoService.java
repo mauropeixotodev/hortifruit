@@ -1,6 +1,7 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
 import org.springframework.stereotype.Service;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
@@ -139,11 +140,12 @@ public class PedidoService {
 				.precoUnidade(medidaProduto.getPreco())
 				.precoTotal(medidaProduto.getPreco().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
 				.totalMedidaGrama(medidaProduto.getMedida().getUnidadeEmGramas().multiply(BigDecimal.valueOf(produtoPedidoRequest.getQuantidade())))
+				.medidaProduto(medidaProduto)
 				.build();
 	}
 	
 	private Produto builderProduto(ProdutoPedidoRequest produtoPedidoRequest) {
-	Optional<Produto> optional = produtoRepository.findById(produtoPedidoRequest.getProduto().getId());
+	Optional<Produto> optional = produtoRepository.findOne(Example.of(Produto.builder().id(produtoPedidoRequest.getProduto().getId()).build()));
 	if(optional.isPresent()) {
 		return optional.get();
 	}

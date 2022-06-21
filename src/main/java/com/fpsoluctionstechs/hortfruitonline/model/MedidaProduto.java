@@ -1,23 +1,25 @@
 package com.fpsoluctionstechs.hortfruitonline.model;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+
+
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 public class MedidaProduto {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "medida_produto_seq")
 	@SequenceGenerator(name = "medida_produto_seq", sequenceName = "medida_produto_seq", allocationSize = 1)
+	@EqualsAndHashCode.Include
 	private Long id;
 
 	@ManyToOne

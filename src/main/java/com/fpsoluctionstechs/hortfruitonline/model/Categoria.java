@@ -9,21 +9,21 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.SequenceGenerator;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 @Entity
 public class Categoria {
 
 	@Id 
 	@GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "categoria_seq")
 	@SequenceGenerator(name = "categoria_seq", sequenceName = "categoria_seq", allocationSize = 1)
+	@EqualsAndHashCode.Include
 	private Long id;
 
 	@ManyToMany(mappedBy = "categorias")

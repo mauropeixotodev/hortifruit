@@ -2,6 +2,7 @@ package com.fpsoluctionstechs.hortfruitonline.service;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
@@ -48,9 +49,9 @@ public class ProdutoService {
 		return produto;
 	}
 
-	private List<Categoria> builderCategoria(List<CategoriaProdutoRequest> categoriasRequest) {
+	private Set<Categoria> builderCategoria(List<CategoriaProdutoRequest> categoriasRequest) {
 		return categoriasRequest.stream().map(categoriaRequest -> builderCategoria(categoriaRequest))
-				.collect(Collectors.toList());
+				.collect(Collectors.toSet());
 	}
 
 	private Categoria builderCategoria(CategoriaProdutoRequest categoriaRequest) {
@@ -82,11 +83,11 @@ public class ProdutoService {
 		throw new EntityNotFoundException("Medida não encontrada");
 	}
 
-	private List<MedidaProduto> builderMedidaProduto(List<MedidaProdutoRequest> medidas, Produto produto) {
-		return medidas.stream().map(medida -> builderMedidaProduto(medida, produto)).collect(Collectors.toList());
+	private Set<MedidaProduto> builderMedidaProduto(List<MedidaProdutoRequest> medidas, Produto produto) {
+		return medidas.stream().map(medida -> builderMedidaProduto(medida, produto)).collect(Collectors.toSet());
 	}
 
-	private List<MedidaProdutoResponse> builderMedidasResponse(List<MedidaProduto> medidas) {
+	private List<MedidaProdutoResponse> builderMedidasResponse(Set<MedidaProduto> medidas) {
 		return medidas.stream().map(medida -> builderMedidaResponse(medida)).collect(Collectors.toList());
 	}
 
@@ -95,7 +96,7 @@ public class ProdutoService {
 				.unidadeEmGramas(medidaProduto.getMedida().getUnidadeEmGramas()).preco(medidaProduto.getPreco()).build();
 	}
 
-	private List<CategoriaResponse> builderCategoriaResponse(List<Categoria> Categorias) {
+	private List<CategoriaResponse> builderCategoriaResponse(Set<Categoria> Categorias) {
 		return Categorias.stream().map(categoria -> builderCategoriaResponse(categoria)).collect(Collectors.toList());
 	}
 
