@@ -197,6 +197,7 @@ public class PedidoService {
                         .key(statusPedido.name())
                         .nome(statusPedido.getNome())
                         .descricao(statusPedido.getDescricao())
+                        .iconName(statusPedido.getIconName())
                         .build()
         ).collect(Collectors.toList());
     }

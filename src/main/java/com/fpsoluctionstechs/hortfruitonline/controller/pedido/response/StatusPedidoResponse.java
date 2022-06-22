@@ -10,4 +10,5 @@ public class StatusPedidoResponse {
 	private String key;
 	private String nome;
 	private String descricao;
+	private String iconName;
 }
