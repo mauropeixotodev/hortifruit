@@ -4,11 +4,7 @@ import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.Atualizar
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaResponseGet;
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.response.MedidaResponse;
-import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.AtualizacaoProdutoRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.ProdutoResponse;
 import com.fpsoluctionstechs.hortfruitonline.service.MedidaService;
-import com.fpsoluctionstechs.hortfruitonline.service.ProdutoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;

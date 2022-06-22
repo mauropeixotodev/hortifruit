@@ -17,7 +17,6 @@ import org.springframework.stereotype.Service;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
-import com.fpsoluctionstechs.hortfruitonline.controller.medida.response.MedidaResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.AtualizacaoProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.ProdutoResponse;

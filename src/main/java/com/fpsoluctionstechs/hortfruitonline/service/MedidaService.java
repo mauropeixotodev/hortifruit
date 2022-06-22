@@ -1,16 +1,11 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
-import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.AtualizarCategoriaRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
-import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponseGet;
+
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.AtualizarMedidaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaResponseGet;
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.response.MedidaResponse;
-import com.fpsoluctionstechs.hortfruitonline.model.Categoria;
 import com.fpsoluctionstechs.hortfruitonline.model.Medida;
-import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
 import com.fpsoluctionstechs.hortfruitonline.respository.MedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

@@ -4,7 +4,6 @@ import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.Enderec
 import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoIdRequest;
-import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
@@ -122,6 +121,7 @@ public class HortfruitOnlineApplication {
                         .bairro("AP. 202")
                         .bairro("Imaculada")
                         .referencia("Escola senhor do bonfim")
+                        .complemento("casa")
                         .build())
                 .produtoPedidos(Arrays.asList(produtoPedido))
                 .build();

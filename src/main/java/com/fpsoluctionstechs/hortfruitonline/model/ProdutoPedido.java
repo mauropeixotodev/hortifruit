@@ -26,14 +26,16 @@ public class ProdutoPedido {
 	@ManyToOne
 	@JoinColumn(name = "pedido_id", referencedColumnName = "id", nullable = false)
 	private Pedido pedido;
-	
+    @Column(nullable = false)
 	private int quantidade;
 	private BigDecimal unidadeMedidaGrama;
 	private BigDecimal precoUnidade;
 
 	@ManyToOne
 	private MedidaProduto medidaProduto;
-
+	
+    @Column(nullable = false)
 	private BigDecimal precoTotal;
+    @Column(nullable = false)
 	private BigDecimal totalMedidaGrama;
 }
