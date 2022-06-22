@@ -19,6 +19,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.math.BigDecimal;
 import java.util.Arrays;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 @SpringBootApplication
@@ -70,32 +71,57 @@ public class HortfruitOnlineApplication {
             medidaRepository.save(medidaKG);
 
 
-            Produto banana = Produto.builder()
-                    .descricao("Banana prata madura")
-                    .nome("Banana prata madura")
-                    .imagem("https://images.educamaisbrasil.com.br/content/banco_de_imagens/guia-de-estudo/D/banana-da-prata.jpg")
-                    .categorias(Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()))
-                    .build();
-
-            banana.setMedidas(
-                    Arrays.asList(
-                            MedidaProduto.builder()
-                                    .medida(medidaKG).preco(BigDecimal.valueOf(12.5)).produto(banana)
-                            .build()
-                    ).stream().collect(Collectors.toSet())
-            );
-            produtoRepository.save(banana);
+            Produto banana = criarESalvarProduto("Banana prata madura", "https://images.educamaisbrasil.com.br/content/banco_de_imagens/guia-de-estudo/D/banana-da-prata.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto maca = criarESalvarProduto("Maça", "https://belezaesaude.com/i/f/o/saude/conteudo/macan.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto goiaba = criarESalvarProduto("Goiaba", "https://belezaesaude.com/i/730/8786/goiaba.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto morango = criarESalvarProduto("Morango", "https://escolaeducacao.com.br/wp-content/uploads/2021/12/o-morango-e-uma-fruta-ou-uma-hortalica-750x430.jpeg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto mamao = criarESalvarProduto("Mamão", "https://www.saudeemdia.com.br/media/_versions/mamao_widexl.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto abacaxi = criarESalvarProduto("Abacaxi", "https://sportlife.com.br/wp-content/uploads/2021/11/abacaxi-1-832x520.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto maracuja = criarESalvarProduto("Maracujá", "https://conteudo.imguol.com.br/c/entretenimento/0c/2020/05/12/maracuja-1589313482855_v2_900x506.jpg.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto batata = criarESalvarProduto("Batata", "https://womenshealthbrasil.com.br/wp-content/uploads/sites/6/2019/09/batata-doce-ou-inglesa.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto alface = criarESalvarProduto("Alface", "https://hiperideal.vteximg.com.br/arquivos/ids/169171-1000-1000/1839128.jpg?v=636615821540430000", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
 
 
-            registrarPedido(banana, "Mauro", 20);
-            registrarPedido(banana, "Damiao", 30);
-            registrarPedido(banana, "Wenderson", 50);
-
+            adicionarPedidosMock(banana);
+            adicionarPedidosMock(maca);
+            adicionarPedidosMock(goiaba);
+            adicionarPedidosMock(morango);
+            adicionarPedidosMock(mamao);
+            adicionarPedidosMock(abacaxi);
+            adicionarPedidosMock(maracuja);
+            adicionarPedidosMock(batata);
+            adicionarPedidosMock(alface);
 
             salvarPedidoByService();
         };
 
 
+    }
+
+    private void adicionarPedidosMock(Produto produto){
+        registrarPedido(produto, "Mauro", 10);
+        registrarPedido(produto, "Damiao", 5);
+        registrarPedido(produto, "Wenderson", 2);
+    }
+
+
+    private Produto criarESalvarProduto(String nome, String urlImagem, Set<Categoria> categorias, Medida medida) {
+
+        Produto produto = Produto.builder()
+                .nome(nome)
+                .descricao(nome)
+                .imagem(urlImagem)
+                .categorias(categorias)
+                .build();
+
+        produto.setMedidas(
+                Arrays.asList(
+                        MedidaProduto.builder()
+                                .medida(medida).preco(BigDecimal.valueOf(12.5)).produto(produto)
+                                .build()
+                ).stream().collect(Collectors.toSet())
+        );
+        return produtoRepository.save(produto);
     }
 
     private void registrarPedido(Produto produto, String nomeCliente, int quantidade) {
