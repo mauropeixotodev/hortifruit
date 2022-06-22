@@ -153,7 +153,7 @@ public class HortfruitOnlineApplication {
                 .build();
 
         produtoPedido.setPedido(pedido);
-        pedido.setStatus(StatusPedido.AGURADANDO_PROCESSAMENTO);
+        pedido.setStatus(StatusPedido.AGUARDANDO_CLIENTE_CONFIRMAR_PEDIDO);
         pedido.setValorTotal(medidaProduto.getPreco().multiply(BigDecimal.valueOf(quantidade)));
         pedidoRepository.save(pedido);
     }
