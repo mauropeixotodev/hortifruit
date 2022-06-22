@@ -10,6 +10,7 @@ import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 
 @Data
@@ -29,7 +30,7 @@ public class Pedido {
 
 	@OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL)
 	private List<ProdutoPedido> produtoPedidos;
-
+	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "endereco_id", referencedColumnName = "id")
 	private Endereco endereco;
@@ -42,9 +43,11 @@ public class Pedido {
 
 	@Enumerated(value = EnumType.STRING)
     private StatusPedido status;
-
+    @Column(nullable = false)
 	private String contato;
+    @Column(nullable = false)
 	private String cliente;
+    @Column(nullable = false)
 	private BigDecimal valorTotal;
 
 }

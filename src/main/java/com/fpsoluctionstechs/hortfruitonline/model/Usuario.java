@@ -23,9 +23,11 @@ public class Usuario implements UserDetails {
 	@SequenceGenerator(name = "usuario_seq", sequenceName = "usuario_seq", allocationSize = 1)
 	@EqualsAndHashCode.Include
 	private Long id;
-	
+
+    @Column(nullable = false)
 	private String username;
-	
+
+    @Column(nullable = false)
 	private String password;
 
 	@Override

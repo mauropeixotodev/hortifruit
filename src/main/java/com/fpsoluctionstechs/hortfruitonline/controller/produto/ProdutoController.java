@@ -4,10 +4,11 @@ import java.net.URI;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
+
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -29,7 +30,7 @@ public class ProdutoController {
 	private ProdutoService produtoService;
 
 	@PostMapping("")
-	public ResponseEntity<ProdutoResponse> cadastro(@Valid @RequestBody ProdutoRequest ProdutoRequest,
+	public ResponseEntity<ProdutoResponse> cadastro(@Validated  @RequestBody ProdutoRequest ProdutoRequest,
 			UriComponentsBuilder uriBuilder) {
 		ProdutoResponse produto = produtoService.salvarProduto(ProdutoRequest);
 		URI uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
@@ -43,7 +44,7 @@ public class ProdutoController {
 	}
 
 	@PutMapping("")
-	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Valid AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
+	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Validated  AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
 		try {
 			return ResponseEntity.ok(produtoService.Atualizar(atualizacaoProdutoRequest));
 		} catch (EntityNotFoundException e) {

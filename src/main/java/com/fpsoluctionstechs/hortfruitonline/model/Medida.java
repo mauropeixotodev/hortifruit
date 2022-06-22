@@ -2,12 +2,11 @@ package com.fpsoluctionstechs.hortfruitonline.model;
 
 import java.math.BigDecimal;
 
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
 import javax.persistence.SequenceGenerator;
 
 import lombok.*;
@@ -26,7 +25,9 @@ public class Medida {
 	@SequenceGenerator(name = "medida_seq", sequenceName = "medida_seq", allocationSize = 1)
 	@EqualsAndHashCode.Include
 	private Long id;
-
+	
+    @Column(nullable = false)
 	private String nome;
+    @Column(nullable = false)
 	private BigDecimal unidadeEmGramas;
 }

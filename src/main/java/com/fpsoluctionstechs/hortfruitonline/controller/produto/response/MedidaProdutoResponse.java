@@ -1,10 +1,9 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.produto.response;
 
-import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaIdRequest;
+
 import lombok.Builder;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.springframework.lang.NonNull;
+
 
 import java.math.BigDecimal;
 

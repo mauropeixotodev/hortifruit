@@ -18,11 +18,15 @@ public class Endereco {
 	@SequenceGenerator(name = "endereco_seq", sequenceName = "endereco_seq", allocationSize = 1)
 	@EqualsAndHashCode.Include
 	private Long id;
-
+    @Column(nullable = false)
 	private String numero;
+    @Column(nullable = false)
 	private String logradouro;
+    @Column(nullable = false)
 	private String complemento;
+    @Column(nullable = false)
 	private String bairro;
+    @Column(nullable = false)
 	private String referencia;
 
 	private double latitude;

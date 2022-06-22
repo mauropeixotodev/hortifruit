@@ -22,7 +22,7 @@ public class CategoriaService {
 
 	@Autowired
 	ProdutoService produtoService;
-	
+
 	@Autowired
 	CategoriaRepository categoriaRepository;
 
@@ -57,13 +57,19 @@ public class CategoriaService {
 	}
 
 	private CategoriaResponse builderCategoriaResponse(Categoria categoria) {
-		return CategoriaResponse.builder().id(categoria.getId()).nome(categoria.getNome()).orderExibicao(categoria.getOrderExibicao()).build();
+		return CategoriaResponse.builder().id(categoria.getId()).nome(categoria.getNome())
+				.orderExibicao(categoria.getOrderExibicao()).build();
 	}
+
 	private CategoriaResponseGet builderCategoriaResponseGet(Categoria categoria) {
-		return CategoriaResponseGet.builder().id(categoria.getId()).nome(categoria.getNome()).produtos(produtoService.builderProdutoResponse(categoria.getProdutos())).orderExibicao(categoria.getOrderExibicao()).build();
+		return CategoriaResponseGet.builder().id(categoria.getId()).nome(categoria.getNome())
+				.produtos(produtoService.builderProdutoResponse(categoria.getProdutos()))
+				.orderExibicao(categoria.getOrderExibicao()).build();
 	}
 
 	private Categoria builderCategoria(CategoriaRequest categoriaRequest) {
-		return Categoria.builder().nome(categoriaRequest.getNome()).orderExibicao(categoriaRequest.getOrderExibicao()).build();
+		return Categoria.builder().nome(categoriaRequest.getNome()).orderExibicao(categoriaRequest.getOrderExibicao())
+				.build();
 	}
+
 }

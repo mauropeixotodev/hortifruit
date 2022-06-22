@@ -4,7 +4,7 @@ package com.fpsoluctionstechs.hortfruitonline.controller.produto.response;
 import java.util.List;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
-import com.fpsoluctionstechs.hortfruitonline.controller.medida.response.MedidaResponse;
+
 
 import lombok.Builder;
 import lombok.Data;
