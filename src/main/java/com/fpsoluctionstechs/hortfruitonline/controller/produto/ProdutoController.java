@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.AtualizacaoProdutoRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.ProdutoResponse;
 import com.fpsoluctionstechs.hortfruitonline.service.ProdutoService;
@@ -41,6 +42,16 @@ public class ProdutoController {
 	@GetMapping("")
 	public List<ProdutoResponse> listar() {
 		return produtoService.listarProdutos();
+	}
+	@PostMapping("/id")
+	public ResponseEntity<ProdutoResponse> buscarID(@Validated  @RequestBody ProdutoIdRequest produtoIdRequest) {
+		try {
+			ProdutoResponse produtoResponse = produtoService.buscarById(produtoIdRequest);
+			return ResponseEntity.ok(produtoResponse);		
+		
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
 	}
 
 	@PutMapping("")

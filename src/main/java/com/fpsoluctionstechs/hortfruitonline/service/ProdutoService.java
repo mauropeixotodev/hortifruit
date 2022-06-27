@@ -1,5 +1,6 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -9,6 +10,7 @@ import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.MedidaProdutoRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.MedidaProdutoResponse;
 import com.fpsoluctionstechs.hortfruitonline.model.MedidaProduto;
 import com.fpsoluctionstechs.hortfruitonline.respository.MedidaRepository;
@@ -24,6 +26,7 @@ import com.fpsoluctionstechs.hortfruitonline.model.Categoria;
 import com.fpsoluctionstechs.hortfruitonline.model.Medida;
 import com.fpsoluctionstechs.hortfruitonline.model.Produto;
 import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
+import com.fpsoluctionstechs.hortfruitonline.respository.MedidaProdutoRepository;
 import com.fpsoluctionstechs.hortfruitonline.respository.ProdutoRepository;
 
 @Service
@@ -37,13 +40,14 @@ public class ProdutoService {
 
 	@Autowired
 	private MedidaRepository medidaRepository;
-
+	@Autowired
+	private MedidaProdutoRepository medidaProdutoRepository;
 
 	private Produto builderProduto(ProdutoRequest produtoRequest) {
 
 		Produto produto = Produto.builder().nome(produtoRequest.getNome()).descricao(produtoRequest.getDescricao())
-				.categorias(builderCategoria(produtoRequest.getCategorias()))
-				.imagem(produtoRequest.getImagem()).build();
+				.categorias(builderCategoria(produtoRequest.getCategorias())).imagem(produtoRequest.getImagem())
+				.build();
 		produto.setMedidas(builderMedidaProduto(produtoRequest.getMedidas(), produto));
 		return produto;
 	}
@@ -64,7 +68,6 @@ public class ProdutoService {
 
 		throw new EntityNotFoundException("Categoria não encontrada");
 	}
-
 
 	private MedidaProduto builderMedidaProduto(MedidaProdutoRequest medida, Produto produto) {
 		return MedidaProduto.builder().preco(medida.getPreco()).medida(buscarMedida(medida)).produto(produto).build();
@@ -92,7 +95,8 @@ public class ProdutoService {
 
 	private MedidaProdutoResponse builderMedidaResponse(MedidaProduto medidaProduto) {
 		return MedidaProdutoResponse.builder().id(medidaProduto.getId()).nome(medidaProduto.getMedida().getNome())
-				.unidadeEmGramas(medidaProduto.getMedida().getUnidadeEmGramas()).preco(medidaProduto.getPreco()).build();
+				.unidadeEmGramas(medidaProduto.getMedida().getUnidadeEmGramas()).preco(medidaProduto.getPreco())
+				.build();
 	}
 
 	private List<CategoriaResponse> builderCategoriaResponse(Set<Categoria> Categorias) {
@@ -115,11 +119,9 @@ public class ProdutoService {
 
 	public ProdutoResponse builderProdutoResponse(Produto produto) {
 		return ProdutoResponse.builder().id(produto.getId()).descricao(produto.getDescricao()).nome(produto.getNome())
-				.categorias(builderCategoriaResponse(produto.getCategorias()))
-				.imagem(produto.getImagem())
+				.categorias(builderCategoriaResponse(produto.getCategorias())).imagem(produto.getImagem())
 				.medidas(builderMedidasResponse(produto.getMedidas())).build();
 	}
-
 
 	public List<ProdutoResponse> listarProdutos() {
 		return builderProdutoResponse(produtoRepository.findAll());
@@ -136,22 +138,37 @@ public class ProdutoService {
 			}
 			if (atualizacaoProdutoRequest.getDescricao() != null) {
 				produto.setDescricao(atualizacaoProdutoRequest.getDescricao());
-
 			}
 			if (atualizacaoProdutoRequest.getCategorias().size() != 0) {
 				produto.setCategorias(builderCategoria(atualizacaoProdutoRequest.getCategorias()));
 
 			}
-			if (atualizacaoProdutoRequest.getMedidas().size() != 0) {
-				produto.setMedidas(builderMedidaProduto(atualizacaoProdutoRequest.getMedidas(), produto));
+			if (atualizacaoProdutoRequest.getMedidas() != null && atualizacaoProdutoRequest.getMedidas().size() != 0) {
+
+				MedidaProdutoRequest medidaProdutoRequest = atualizacaoProdutoRequest.getMedidas().get(0);
+				Optional<Medida> medidaOpitonal = medidaRepository.findById(medidaProdutoRequest.getMedida().getId());
+				if (medidaOpitonal.isPresent()) {
+					produto.setMedidas(Arrays.asList(builderMedidaProduto(medidaProdutoRequest, produto)).stream()
+							.collect(Collectors.toSet()));
+				}
 			}
-			if(atualizacaoProdutoRequest.getImagem() != null) {
+			if (atualizacaoProdutoRequest.getImagem() != null) {
 				produto.setImagem(atualizacaoProdutoRequest.getImagem());
 			}
 
 			return builderProdutoResponse(produto);
 		}
 
+		throw new EntityNotFoundException("Produto não encontrado");
+
+	}
+
+	public ProdutoResponse buscarById(ProdutoIdRequest produtoIdRequest) {
+
+		Optional<Produto> optional = produtoRepository.findById(produtoIdRequest.getId());
+		if (optional.isPresent()) {
+			return builderProdutoResponse(optional.get());
+		}
 		throw new EntityNotFoundException("Produto não encontrado");
 
 	}

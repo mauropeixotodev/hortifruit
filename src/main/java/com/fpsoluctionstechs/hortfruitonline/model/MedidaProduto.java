@@ -23,7 +23,7 @@ public class MedidaProduto {
 	private Long id;
 
 	@ManyToOne
-	@JoinColumn(name = "produto_id", referencedColumnName = "id", nullable = false)
+	@JoinColumn(name = "produto_id", referencedColumnName = "id")
 	private Produto produto;
 
 	@ManyToOne

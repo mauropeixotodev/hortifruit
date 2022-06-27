@@ -24,7 +24,7 @@ public class Produto {
     @Column(nullable = false)	
 	private String imagem;
 
-	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
+	@OneToMany(mappedBy = "produto", cascade = CascadeType.ALL, orphanRemoval = false, fetch = FetchType.EAGER)
 	private Set<MedidaProduto> medidas;
 
 	@ManyToMany(fetch = FetchType.EAGER)
@@ -35,14 +35,15 @@ public class Produto {
     @Column(nullable = false)
 	private String nome;
 
-//	public void setMedidas(Set<MedidaProduto> medidas) {
-//		if (this.medidas != null) {
-//			this.medidas.clear();
-//			this.medidas.addAll(medidas);
-//			return;
-//		}
-//
-//		this.medidas = medidas;
-//	}
+	public void setMedidas(Set<MedidaProduto> medidas) {
+		if (this.medidas != null && this.medidas.size() > 0) {
+			this.medidas.forEach(produtoMedida -> produtoMedida.setProduto(null));
+			this.medidas.clear();
+			this.medidas.addAll(medidas);
+			return;
+		}
+
+		this.medidas = medidas;
+	}
 
 }
