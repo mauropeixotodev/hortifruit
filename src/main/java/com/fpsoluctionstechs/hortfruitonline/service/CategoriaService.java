@@ -40,7 +40,13 @@ public class CategoriaService {
 		Optional<Categoria> optional = categoriaRepository.findById(atualizarCategoriaRequest.getId());
 		if (optional.isPresent()) {
 			Categoria categoria = optional.get();
-			categoria.setNome(atualizarCategoriaRequest.getNome());
+			if(atualizarCategoriaRequest.getNome() != null) {
+				categoria.setNome(atualizarCategoriaRequest.getNome());
+			}
+			if(atualizarCategoriaRequest.getOrderExibicao() != 0) {
+				categoria.setOrderExibicao(atualizarCategoriaRequest.getOrderExibicao());
+			}
+			
 			return builderCategoriaResponse(categoria);
 		}
 		throw new EntityNotFoundException("Categoria não encontrada");

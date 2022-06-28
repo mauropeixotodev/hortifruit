@@ -10,7 +10,9 @@ import javax.validation.constraints.NotNull;
 public class AtualizarCategoriaRequest {
 	@NotNull
 	private Long id;
-	@NotNull
+	
 	private String nome;
+	
+	private int orderExibicao;
 
 }
