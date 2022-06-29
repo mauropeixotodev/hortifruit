@@ -5,7 +5,7 @@ public enum StatusPedido {
 	AGUARDANDO_PROCESSAMENTO("Aguardando Processamento", "Aguardando processamento do pedido.", "faCirclePause"),
 	PROCESSANDO("Processando", "Processando o pedido.", "faArrowsSpin"),
 	CANCELADO("Cancelado", "Pedido cancelado.", "faCancel"),
-	ENTREGUE("Entregue", "Pedido entrege.", "faCar");
+	ENTREGUE("Entregue", "Pedido entregue.", "faCar");
 	
 	private String nome;
 	private String descricao;
