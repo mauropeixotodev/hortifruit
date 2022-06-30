@@ -8,6 +8,7 @@ import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.Pr
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
 import com.fpsoluctionstechs.hortfruitonline.respository.*;
+import com.fpsoluctionstechs.hortfruitonline.service.FilesService;
 import com.fpsoluctionstechs.hortfruitonline.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
@@ -43,6 +44,9 @@ public class HortfruitOnlineApplication {
     @Autowired
     private PedidoService pedidoService;
 
+    @Autowired
+    private FilesService filesService;
+
     public static void main(String[] args) {
         SpringApplication.run(HortfruitOnlineApplication.class, args);
 
@@ -52,6 +56,7 @@ public class HortfruitOnlineApplication {
     public CommandLineRunner commandLineRunner(ApplicationContext ctx) {
         return args -> {
 
+            filesService.init();
 
             BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
             Usuario usuario = Usuario.builder()
@@ -71,15 +76,15 @@ public class HortfruitOnlineApplication {
             medidaRepository.save(medidaKG);
 
 
-            Produto banana = criarESalvarProduto("Banana prata madura", "https://images.educamaisbrasil.com.br/content/banco_de_imagens/guia-de-estudo/D/banana-da-prata.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto maca = criarESalvarProduto("Maça", "https://belezaesaude.com/i/f/o/saude/conteudo/macan.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto goiaba = criarESalvarProduto("Goiaba", "https://belezaesaude.com/i/730/8786/goiaba.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto morango = criarESalvarProduto("Morango", "https://escolaeducacao.com.br/wp-content/uploads/2021/12/o-morango-e-uma-fruta-ou-uma-hortalica-750x430.jpeg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto mamao = criarESalvarProduto("Mamão", "https://www.saudeemdia.com.br/media/_versions/mamao_widexl.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto abacaxi = criarESalvarProduto("Abacaxi", "https://sportlife.com.br/wp-content/uploads/2021/11/abacaxi-1-832x520.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto maracuja = criarESalvarProduto("Maracujá", "https://conteudo.imguol.com.br/c/entretenimento/0c/2020/05/12/maracuja-1589313482855_v2_900x506.jpg.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto batata = criarESalvarProduto("Batata", "https://womenshealthbrasil.com.br/wp-content/uploads/sites/6/2019/09/batata-doce-ou-inglesa.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
-            Produto alface = criarESalvarProduto("Alface", "https://hiperideal.vteximg.com.br/arquivos/ids/169171-1000-1000/1839128.jpg?v=636615821540430000", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto banana = criarESalvarProduto("Banana prata madura", "1656552162550-banana-da-prata.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto maca = criarESalvarProduto("Maça", "1656552204750-maca.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto goiaba = criarESalvarProduto("Goiaba", "1656552191905-goiaba.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto morango = criarESalvarProduto("Morango", "1656552259199-morango.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto mamao = criarESalvarProduto("Mamão", "1656552216023-mamao.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto abacaxi = criarESalvarProduto("Abacaxi", "1656552129382-abacaxi.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto maracuja = criarESalvarProduto("Maracujá", "1656552246063-maracuja.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto batata = criarESalvarProduto("Batata", "1656552177531-batata.jpg", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
+            Produto alface = criarESalvarProduto("Alface", "1656552147600-alface.webp", Arrays.asList(categoriaFruta, categoriaPromocao).stream().collect(Collectors.toSet()), medidaKG);
 
 
             adicionarPedidosMock(banana);
