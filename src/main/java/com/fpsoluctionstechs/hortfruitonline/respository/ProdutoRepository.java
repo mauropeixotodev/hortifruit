@@ -9,5 +9,5 @@ import java.util.List;
 
 public interface ProdutoRepository extends JpaRepository<Produto, Long> {
 
-    public List<Produto> findAllByStatus(EStatusProduto status);
+    public List<Produto> findByStatus(EStatusProduto status);
 }

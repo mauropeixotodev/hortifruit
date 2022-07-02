@@ -142,7 +142,7 @@ public class ProdutoService {
 	}
 
 	public List<ProdutoResponse> listarProdutos() {
-		return builderProdutoResponse(produtoRepository.findAllByStatus(EStatusProduto.DISPONIVEL));
+		return builderProdutoResponse(produtoRepository.findByStatus(EStatusProduto.DISPONIVEL));
 	}
 
 	public List<ProdutoResponse> listarProdutosAdmin() {

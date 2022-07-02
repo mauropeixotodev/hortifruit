@@ -1,11 +1,14 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
+import com.fpsoluctionstechs.hortfruitonline.respository.ICategoria;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import java.util.Optional;
@@ -21,10 +24,10 @@ import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
 public class CategoriaService {
 
 	@Autowired
-	ProdutoService produtoService;
+	private ProdutoService produtoService;
 
 	@Autowired
-	CategoriaRepository categoriaRepository;
+	private CategoriaRepository categoriaRepository;
 
 	public CategoriaResponse salvar(CategoriaRequest categoriaRequest) {
 		return builderCategoriaResponse(categoriaRepository.save(builderCategoria(categoriaRequest)));
@@ -33,6 +36,16 @@ public class CategoriaService {
 	public List<CategoriaResponseGet> buscarCategorias() {
 		return categoriaRepository.findAll().stream().map(categoria -> builderCategoriaResponseGet(categoria))
 				.collect(Collectors.toList());
+	}
+
+	public List<CategoriaResponseGet> buscarCategoriasProdutosStatus() {
+		return categoriaRepository.findByProdutosStatus(EStatusProduto.DISPONIVEL).stream().map(categoria -> builderCategoriaResponseGetProdutosDisponiveis(categoria))
+				.collect(Collectors.toList());
+	}
+	private CategoriaResponseGet builderCategoriaResponseGetProdutosDisponiveis(ICategoria categoria) {
+		return CategoriaResponseGet.builder().id(categoria.getCategoria().getId()).nome(categoria.getCategoria().getNome())
+				.produtos(produtoService.builderProdutoResponse(Arrays.asList(categoria.getProduto())))
+				.orderExibicao(categoria.getCategoria().getOrderExibicao()).build();
 	}
 
 	@Transactional
@@ -69,7 +82,7 @@ public class CategoriaService {
 
 	private CategoriaResponseGet builderCategoriaResponseGet(Categoria categoria) {
 		return CategoriaResponseGet.builder().id(categoria.getId()).nome(categoria.getNome())
-				.produtos(produtoService.builderProdutoResponse(categoria.getProdutos()))
+				.produtos(produtoService.builderProdutoResponse(categoria.getProdutos().stream().filter(produto -> produto.getStatus().equals(EStatusProduto.DISPONIVEL)).collect(Collectors.toList())))
 				.orderExibicao(categoria.getOrderExibicao()).build();
 	}
 
