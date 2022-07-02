@@ -1,24 +1,20 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
-import java.util.Arrays;
-import java.util.List;
-import java.util.stream.Collectors;
-
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
-
-import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
-import com.fpsoluctionstechs.hortfruitonline.respository.ICategoria;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import java.util.Optional;
-
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.AtualizarCategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.response.CategoriaResponseGet;
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import com.fpsoluctionstechs.hortfruitonline.model.Categoria;
 import com.fpsoluctionstechs.hortfruitonline.respository.CategoriaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
+import java.util.List;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class CategoriaService {
@@ -36,16 +32,6 @@ public class CategoriaService {
 	public List<CategoriaResponseGet> buscarCategorias() {
 		return categoriaRepository.findAll().stream().map(categoria -> builderCategoriaResponseGet(categoria))
 				.collect(Collectors.toList());
-	}
-
-	public List<CategoriaResponseGet> buscarCategoriasProdutosStatus() {
-		return categoriaRepository.findByProdutosStatus(EStatusProduto.DISPONIVEL).stream().map(categoria -> builderCategoriaResponseGetProdutosDisponiveis(categoria))
-				.collect(Collectors.toList());
-	}
-	private CategoriaResponseGet builderCategoriaResponseGetProdutosDisponiveis(ICategoria categoria) {
-		return CategoriaResponseGet.builder().id(categoria.getCategoria().getId()).nome(categoria.getCategoria().getNome())
-				.produtos(produtoService.builderProdutoResponse(Arrays.asList(categoria.getProduto())))
-				.orderExibicao(categoria.getCategoria().getOrderExibicao()).build();
 	}
 
 	@Transactional
