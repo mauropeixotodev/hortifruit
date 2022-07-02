@@ -11,7 +11,9 @@ import javax.transaction.Transactional;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.MedidaProdutoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoIdRequest;
+import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.EStatusProdutoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.MedidaProdutoResponse;
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import com.fpsoluctionstechs.hortfruitonline.model.MedidaProduto;
 import com.fpsoluctionstechs.hortfruitonline.respository.MedidaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,9 +49,18 @@ public class ProdutoService {
 
 		Produto produto = Produto.builder().nome(produtoRequest.getNome()).descricao(produtoRequest.getDescricao())
 				.categorias(builderCategoria(produtoRequest.getCategorias())).imagem(produtoRequest.getImagem())
+				.status(obterStatusProduto(produtoRequest))
 				.build();
 		produto.setMedidas(builderMedidaProduto(produtoRequest.getMedidas(), produto));
+
 		return produto;
+	}
+
+	private EStatusProduto obterStatusProduto(ProdutoRequest produtoRequest){
+		if(produtoRequest.getStatus() != null)
+			return produtoRequest.getStatus();
+
+		return EStatusProduto.DISPONIVEL;
 	}
 
 	private Set<Categoria> builderCategoria(List<CategoriaProdutoRequest> categoriasRequest) {
@@ -120,13 +131,31 @@ public class ProdutoService {
 	public ProdutoResponse builderProdutoResponse(Produto produto) {
 		return ProdutoResponse.builder().id(produto.getId()).descricao(produto.getDescricao()).nome(produto.getNome())
 				.categorias(builderCategoriaResponse(produto.getCategorias())).imagem(produto.getImagem())
-				.medidas(builderMedidasResponse(produto.getMedidas())).build();
+				.medidas(builderMedidasResponse(produto.getMedidas()))
+				.status(
+						EStatusProdutoResponse.builder()
+								.key(produto.getStatus().name())
+								.nome(produto.getStatus().getNome())
+								.descricao(produto.getStatus().getDescricao())
+								.build()
+				).build();
 	}
 
 	public List<ProdutoResponse> listarProdutos() {
+		return builderProdutoResponse(produtoRepository.findAllByStatus(EStatusProduto.DISPONIVEL));
+	}
+
+	public List<ProdutoResponse> listarProdutosAdmin() {
 		return builderProdutoResponse(produtoRepository.findAll());
 	}
 
+	public List<EStatusProdutoResponse> listarStatusProduto(){
+		return Arrays.stream(EStatusProduto.values()).map(eStatusProduto -> EStatusProdutoResponse.builder()
+				.key(eStatusProduto.name())
+				.nome(eStatusProduto.getNome())
+				.descricao(eStatusProduto.getDescricao()).build())
+				.collect(Collectors.toList());
+	}
 	@Transactional
 	public ProdutoResponse Atualizar(AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
 
@@ -139,7 +168,7 @@ public class ProdutoService {
 			if (atualizacaoProdutoRequest.getDescricao() != null) {
 				produto.setDescricao(atualizacaoProdutoRequest.getDescricao());
 			}
-			if (atualizacaoProdutoRequest.getCategorias().size() != 0) {
+			if (atualizacaoProdutoRequest.getCategorias() != null && atualizacaoProdutoRequest.getCategorias().size() != 0) {
 				produto.setCategorias(builderCategoria(atualizacaoProdutoRequest.getCategorias()));
 
 			}
@@ -154,6 +183,10 @@ public class ProdutoService {
 			}
 			if (atualizacaoProdutoRequest.getImagem() != null) {
 				produto.setImagem(atualizacaoProdutoRequest.getImagem());
+			}
+
+			if (atualizacaoProdutoRequest.getStatus() != null) {
+				produto.setStatus(atualizacaoProdutoRequest.getStatus());
 			}
 
 			return builderProdutoResponse(produto);

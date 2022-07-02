@@ -1,31 +1,23 @@
-   package com.fpsoluctionstechs.hortfruitonline.controller.pedido;
-
-import java.net.URI;
-import java.util.List;
-
-import javax.persistence.EntityNotFoundException;
-import javax.validation.Valid;
-
-import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.ProdutosPedidosRelatorioResponse;
-import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.StatusPedidoResponse;
-import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
-import com.fpsoluctionstechs.hortfruitonline.respository.relatorio.PedidosProdutosRelatorio;
-import com.fpsoluctionstechs.hortfruitonline.service.relatorio.PedidosProdutosRelatorioService;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.util.UriComponentsBuilder;
+package com.fpsoluctionstechs.hortfruitonline.controller.pedido;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.ProdutosPedidosRelatorioResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.StatusPedidoResponse;
+import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.service.PedidoService;
+import com.fpsoluctionstechs.hortfruitonline.service.relatorio.PedidosProdutosRelatorioService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.util.UriComponentsBuilder;
+
+import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+import java.net.URI;
+import java.util.List;
 
 @RestController
 @RequestMapping("/pedido")

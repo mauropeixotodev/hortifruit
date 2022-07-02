@@ -5,6 +5,7 @@ import com.fpsoluctionstechs.hortfruitonline.controller.medida.request.MedidaIdR
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.request.ProdutoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
 import com.fpsoluctionstechs.hortfruitonline.respository.*;
@@ -126,6 +127,8 @@ public class HortfruitOnlineApplication {
                                 .build()
                 ).stream().collect(Collectors.toSet())
         );
+
+        produto.setStatus(EStatusProduto.DISPONIVEL);
         return produtoRepository.save(produto);
     }
 

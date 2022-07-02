@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.persistence.*;
 
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import lombok.*;
 
 @Data
@@ -30,10 +31,16 @@ public class Produto {
 	@ManyToMany(fetch = FetchType.EAGER)
 	@JoinTable(name = "produto_categoria", joinColumns = @JoinColumn(name = "produto_id"), inverseJoinColumns = @JoinColumn(name = "categoria_id"))
 	private Set<Categoria> categorias;
+
     @Column(nullable = false)
 	private String descricao;
-    @Column(nullable = false)
+
+	@Column(nullable = false)
 	private String nome;
+
+	@Column(nullable = false)
+	@Enumerated(EnumType.STRING)
+	private EStatusProduto status;
 
 	public void setMedidas(Set<MedidaProduto> medidas) {
 		if (this.medidas != null && this.medidas.size() > 0) {

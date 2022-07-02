@@ -6,6 +6,8 @@ import java.util.List;
 import javax.persistence.EntityNotFoundException;
 
 
+import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.EStatusProdutoResponse;
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.annotation.Validated;
@@ -24,13 +26,12 @@ import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.Produto
 import com.fpsoluctionstechs.hortfruitonline.service.ProdutoService;
 
 @RestController
-@RequestMapping("/produto")
 public class ProdutoController {
 
 	@Autowired
 	private ProdutoService produtoService;
 
-	@PostMapping("")
+	@PostMapping("/produto")
 	public ResponseEntity<ProdutoResponse> cadastro(@Validated  @RequestBody ProdutoRequest ProdutoRequest,
 			UriComponentsBuilder uriBuilder) {
 		ProdutoResponse produto = produtoService.salvarProduto(ProdutoRequest);
@@ -39,11 +40,22 @@ public class ProdutoController {
 
 	}
 
-	@GetMapping("")
+	@GetMapping("/produto")
 	public List<ProdutoResponse> listar() {
 		return produtoService.listarProdutos();
 	}
-	@PostMapping("/id")
+
+	@GetMapping("/admin/produto")
+	public List<ProdutoResponse> listarProdutoAdmin() {
+		return produtoService.listarProdutosAdmin();
+	}
+
+	@GetMapping("/admin/produto/status")
+	public List<EStatusProdutoResponse> listarStatusProduto() {
+		return produtoService.listarStatusProduto();
+	}
+
+	@PostMapping("/produto/id")
 	public ResponseEntity<ProdutoResponse> buscarID(@Validated  @RequestBody ProdutoIdRequest produtoIdRequest) {
 		try {
 			ProdutoResponse produtoResponse = produtoService.buscarById(produtoIdRequest);
@@ -54,7 +66,7 @@ public class ProdutoController {
 		}
 	}
 
-	@PutMapping("")
+	@PutMapping("/produto")
 	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Validated  AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
 		try {
 			return ResponseEntity.ok(produtoService.Atualizar(atualizacaoProdutoRequest));

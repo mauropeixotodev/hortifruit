@@ -2,6 +2,7 @@ package com.fpsoluctionstechs.hortfruitonline.controller.produto.request;
 
 import java.util.List;
 import com.fpsoluctionstechs.hortfruitonline.controller.categoria.request.CategoriaProdutoRequest;
+import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -23,5 +24,6 @@ public class ProdutoRequest {
 	@NotNull
 	@NotEmpty
 	private List<MedidaProdutoRequest> medidas;
+	private EStatusProduto status;
 
 }
