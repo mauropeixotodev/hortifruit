@@ -4,18 +4,15 @@ import java.net.URI;
 import java.util.List;
 
 import javax.persistence.EntityNotFoundException;
-
+import javax.validation.Valid;
 
 import com.fpsoluctionstechs.hortfruitonline.controller.produto.response.EStatusProdutoResponse;
-import com.fpsoluctionstechs.hortfruitonline.enums.EStatusProduto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 
@@ -31,8 +28,8 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoService produtoService;
 
-	@PostMapping("/produto")
-	public ResponseEntity<ProdutoResponse> cadastro(@Validated  @RequestBody ProdutoRequest ProdutoRequest,
+	@PostMapping("admin/produto")
+	public ResponseEntity<ProdutoResponse> cadastro(@Valid   @RequestBody ProdutoRequest ProdutoRequest,
 			UriComponentsBuilder uriBuilder) {
 		ProdutoResponse produto = produtoService.salvarProduto(ProdutoRequest);
 		URI uri = uriBuilder.path("/produto/{id}").buildAndExpand(produto.getId()).toUri();
@@ -55,8 +52,8 @@ public class ProdutoController {
 		return produtoService.listarStatusProduto();
 	}
 
-	@PostMapping("/produto/id")
-	public ResponseEntity<ProdutoResponse> buscarID(@Validated  @RequestBody ProdutoIdRequest produtoIdRequest) {
+	@PostMapping("/admin/produto/id")
+	public ResponseEntity<ProdutoResponse> buscarID(@Valid   @RequestBody ProdutoIdRequest produtoIdRequest) {
 		try {
 			ProdutoResponse produtoResponse = produtoService.buscarById(produtoIdRequest);
 			return ResponseEntity.ok(produtoResponse);		
@@ -66,8 +63,8 @@ public class ProdutoController {
 		}
 	}
 
-	@PutMapping("/produto")
-	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Validated  AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
+	@PutMapping("/admin/produto")
+	public ResponseEntity<ProdutoResponse> atualizacao(@RequestBody @Valid   AtualizacaoProdutoRequest atualizacaoProdutoRequest) {
 		try {
 			return ResponseEntity.ok(produtoService.Atualizar(atualizacaoProdutoRequest));
 		} catch (EntityNotFoundException e) {

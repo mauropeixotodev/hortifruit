@@ -44,21 +44,8 @@ public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().authorizeRequests()
-		    .antMatchers(HttpMethod.OPTIONS, "/**").permitAll()
-		    .antMatchers(HttpMethod.POST, "/auth*").permitAll()
-		    .antMatchers(HttpMethod.GET, "/produto*").permitAll()
-		    .antMatchers(HttpMethod.POST, "/produto*").permitAll()
-		    .antMatchers(HttpMethod.GET, "/categoria*").permitAll()
-		    .antMatchers(HttpMethod.POST, "/categoria*").permitAll()
-		    .antMatchers(HttpMethod.POST, "/pedido*").permitAll()
-		    .antMatchers(HttpMethod.GET, "/pedido*").permitAll()
-		    .antMatchers(HttpMethod.POST, "/medida").permitAll()
-		    .antMatchers(HttpMethod.GET, "/medida").permitAll()
-		    .antMatchers(HttpMethod.PUT, "/pedido*").permitAll()
-		    .antMatchers(HttpMethod.POST, "/pedido/id*").permitAll()
-		    .antMatchers(HttpMethod.GET, "/files").permitAll()
-		    .antMatchers(HttpMethod.GET, "/files/{filename:.+}").permitAll()
-			.anyRequest().authenticated().and()
+		    .antMatchers("/admin/**").authenticated()
+			.anyRequest().permitAll().and()
 			.csrf().disable()
 			.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
 			.addFilterBefore(new AutenticacaoViaTokenFilter(tokenService, usuarioRepository),

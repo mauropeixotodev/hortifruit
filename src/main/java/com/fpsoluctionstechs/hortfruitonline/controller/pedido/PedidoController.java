@@ -20,7 +20,6 @@ import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/pedido")
 public class PedidoController {
 
 	@Autowired
@@ -29,19 +28,19 @@ public class PedidoController {
 	@Autowired
 	private PedidosProdutosRelatorioService pedidosProdutosRelatorioService;
 
-	@PostMapping("")
+	@PostMapping("/pedido")
 	public ResponseEntity<PedidoResponse> cadastro(@RequestBody @Valid PedidoRequest pedidoRequest, UriComponentsBuilder uriBuilder){
 		PedidoResponse pedido = pedidoService.salvarPedido(pedidoRequest);
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getId()).toUri();
 		return ResponseEntity.created(uri).body(pedido);
 	}
 
-	@GetMapping("")
+	@GetMapping("/admin/pedido")
 	public List<PedidoResponse> listar() {
 		return pedidoService.listar();
 	}
 
-	@PostMapping("/id")
+	@PostMapping("/pedido/id")
 	public ResponseEntity<PedidoResponse> buscar(@RequestBody @Valid PedidoIdRequest pedidoIdRequest){
 		try {
 			return ResponseEntity.ok(pedidoService.buscarPedido(pedidoIdRequest));
@@ -50,8 +49,17 @@ public class PedidoController {
 		}
 	
 	}
+	@PostMapping("/admin/pedido/id")
+	public ResponseEntity<PedidoResponse> buscarAdmin(@RequestBody @Valid PedidoIdRequest pedidoIdRequest){
+		try {
+			return ResponseEntity.ok(pedidoService.buscarPedido(pedidoIdRequest));
+		} catch (EntityNotFoundException e) {
+			return ResponseEntity.notFound().build();
+		}
+	
+	}
 
-	@PutMapping("")
+	@PutMapping("/admin/pedido")
 	public ResponseEntity<PedidoResponse> atualizacao(@RequestBody @Valid PedidoAtualizacaoStatusRequest pedidoAtualizacaoStatusRequest) {
 		try {
 			return ResponseEntity.ok(pedidoService.atualizarStatusPedido(pedidoAtualizacaoStatusRequest));
@@ -60,12 +68,12 @@ public class PedidoController {
 		}
 	}
 
-	@GetMapping("/relatorio")
+	@GetMapping("/admin/pedido/relatorio")
 	public List<ProdutosPedidosRelatorioResponse> relatorio() {
 		return pedidosProdutosRelatorioService.filtrarProdutosPedidosByStatus(StatusPedido.AGUARDANDO_PROCESSAMENTO);
 	}
 
-	@GetMapping("/status")
+	@GetMapping("/admin/pedido/status")
 	public List<StatusPedidoResponse> status() {
 		return pedidoService.status();
 	}
