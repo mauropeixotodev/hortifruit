@@ -4,14 +4,21 @@
 ## docker container
 git clone master  
 
-docker build -f container.dockerfile -t fpsoluctiontechs/hortifruit-api .  
+#Backend - VPS
 
-### Opções de volumes
+## INFRA
+docker build -t fpsoluctionstechs/postgres .  
 
-#1 mapea uma pasta da máquina atual para o container  
-docker run -p 8080:8080 --name hortfifruit-api --mount type=bind,source=/opt/hortifruit-upload-files,destination=/opt/hortifruit/uploads fpsoluctiontechs/hortifruit-api
+docker network create --driver bridge fp-network  
 
-#2 cria um volume que poderá ser utilizado quando recriado o novo container  
-docker run -p 8080:8080 --name hortfifruit-api --mount source=hortfruit-api-volume,destination=/opt/hortifruit/uploads fpsoluctiontechs/hortifruit-api
+### BD
+docker run -d --name fp-postgres -e POSTGRES_PASSWORD=r9B9d8Xwp -e PGDATA=/var/lib/postgresql/data/pgdata --network=fp-network --mount type=bind,source=/opt/fpsoluctionstechs/postgres,destination=/var/lib/postgresql/data -p 5432:5432 fpsoluctionstechs/postgres -d
 
-docker exec -it hortfifruit-api /bin/sh  
+### API
+docker build -t fpsoluctionstechs/hortifruit-api .  
+
+docker run --name hortfifruit-api --mount type=bind,source=/opt/fpsoluctionstechs/hortifruit/upload-files,destination=/opt/hortifruit/uploads -e 'spring.profiles.active=prod' -e 'DATABASE_URL=jdbc:postgresql://fp-postgres:5432/postgres' -e 'DATABASE_USERNAME=hortifruit' -e 'DATABASE_PASSWORD=r9B9d8Xwp' --network=fp-network -p 8080:8080 fpsoluctionstechs/hortifruit-api -d
+
+### Comandos
+**Acessando o terminal do container**
+* docker exec -it hortfifruit-api /bin/sh  
