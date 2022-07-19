@@ -1,5 +1,6 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.core.io.UrlResource;
 import org.springframework.stereotype.Service;
@@ -17,10 +18,14 @@ import java.util.stream.Stream;
 @Service
 public class FilesService {
 
-    private final Path root = Paths.get("uploads");
+    @Value("${diretorio.upload.files}")
+    private String diretorioUploadFile;
+
+    private Path root;
 
     public void init() {
         try {
+            root = Paths.get(diretorioUploadFile);
             if(!Files.exists(root)) Files.createDirectory(root);
         } catch (IOException e) {
             throw new RuntimeException("Não foi possível iniciar a pasta de uploads!");
