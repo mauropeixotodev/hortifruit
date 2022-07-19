@@ -3,6 +3,8 @@ package com.fpsoluctionstechs.hortfruitonline.controller.endereco.response;
 import lombok.Builder;
 import lombok.Data;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 public class EnderecoResponse {
@@ -13,7 +15,7 @@ public class EnderecoResponse {
 	private String complemento;
 	private String bairro;
 	private String referencia;
-	private double latitude;
-	private double longitude;
+	private BigDecimal latitude;
+	private BigDecimal longitude;
 
 }

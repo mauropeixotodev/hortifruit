@@ -4,6 +4,8 @@ import javax.persistence.*;
 
 import lombok.*;
 
+import java.math.BigDecimal;
+
 @Data
 @Builder
 @AllArgsConstructor
@@ -29,6 +31,6 @@ public class Endereco {
     @Column(nullable = false)
 	private String referencia;
 
-	private double latitude;
-	private double longitude;
+	private BigDecimal latitude;
+	private BigDecimal longitude;
 }
