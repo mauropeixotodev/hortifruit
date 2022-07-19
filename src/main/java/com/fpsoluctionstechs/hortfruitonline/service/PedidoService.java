@@ -164,8 +164,8 @@ public class PedidoService {
                 .bairro(enderecoRequest.getBairro())
                 .complemento(enderecoRequest.getComplemento())
                 .logradouro(enderecoRequest.getLogradouro())
-                .latitude(enderecoRequest.getLatitude())
-                .longitude(enderecoRequest.getLongitude())
+                .latitude(BigDecimal.valueOf(enderecoRequest.getLatitude()))
+                .longitude(BigDecimal.valueOf(enderecoRequest.getLongitude()))
                 .numero(enderecoRequest.getNumero())
                 .referencia(enderecoRequest.getReferencia())
                 .build();
