@@ -1,5 +1,6 @@
 package com.fpsoluctionstechs.hortfruitonline.controller.pedido;
 
+import com.fpsoluctionstechs.hortfruitonline.config.exceptions.NegocioException;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
@@ -29,7 +30,7 @@ public class PedidoController {
 	private PedidosProdutosRelatorioService pedidosProdutosRelatorioService;
 
 	@PostMapping("/pedido")
-	public ResponseEntity<PedidoResponse> cadastro(@RequestBody @Valid PedidoRequest pedidoRequest, UriComponentsBuilder uriBuilder){
+	public ResponseEntity<PedidoResponse> cadastro(@RequestBody @Valid PedidoRequest pedidoRequest, UriComponentsBuilder uriBuilder) {
 		PedidoResponse pedido = pedidoService.salvarPedido(pedidoRequest);
 		URI uri = uriBuilder.path("/pedido/{id}").buildAndExpand(pedido.getId()).toUri();
 		return ResponseEntity.created(uri).body(pedido);

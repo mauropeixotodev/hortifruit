@@ -17,6 +17,9 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+
+import java.math.BigDecimal;
+import java.util.List;
 import java.util.Optional;
 
 @SpringBootApplication
@@ -24,6 +27,9 @@ public class HortfruitOnlineApplication {
 
 	@Autowired
 	private UsuarioRepository usuarioRepository;
+
+	@Autowired
+	private  RegrasPedidoRepository regrasPedidoRepository;
 
 	@Autowired
 	private FilesService filesService;
@@ -52,6 +58,11 @@ public class HortfruitOnlineApplication {
 
 			}
 
+
+			List<RegraPedido> regraPedidos = regrasPedidoRepository.findAll();
+			if(regraPedidos.isEmpty()){
+				regrasPedidoRepository.save(RegraPedido.builder().valorMinimo(BigDecimal.valueOf(20)).build());
+			}
 		};
 
 	}
