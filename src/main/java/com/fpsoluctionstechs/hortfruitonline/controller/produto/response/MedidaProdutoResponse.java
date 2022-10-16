@@ -11,6 +11,7 @@ import java.math.BigDecimal;
 @Builder
 public class MedidaProdutoResponse {
     private Long id;
+    private Long referenciaId;
     private String nome;
     private BigDecimal unidadeEmGramas;
     private BigDecimal preco;

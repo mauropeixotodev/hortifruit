@@ -107,6 +107,7 @@ public class ProdutoService {
 	private MedidaProdutoResponse builderMedidaResponse(MedidaProduto medidaProduto) {
 		return MedidaProdutoResponse.builder().id(medidaProduto.getId()).nome(medidaProduto.getMedida().getNome())
 				.unidadeEmGramas(medidaProduto.getMedida().getUnidadeEmGramas()).preco(medidaProduto.getPreco())
+				.referenciaId(medidaProduto.getMedida().getId())
 				.build();
 	}
 
