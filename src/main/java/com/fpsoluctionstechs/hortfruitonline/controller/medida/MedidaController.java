@@ -12,29 +12,30 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import javax.persistence.EntityNotFoundException;
+import javax.validation.Valid;
+
 import java.net.URI;
 import java.util.List;
 
 @RestController
-@RequestMapping("/medida")
 public class MedidaController {
 	@Autowired
 	private MedidaService medidaService;
 
-	@PostMapping("")
-	public ResponseEntity<MedidaResponse> cadastro(@RequestBody @Validated MedidaRequest medidaRequest,
+	@PostMapping("/admin/medida")
+	public ResponseEntity<MedidaResponse> cadastro(@RequestBody @Valid  MedidaRequest medidaRequest,
 												   UriComponentsBuilder uriBuilder) throws Exception {
 		MedidaResponse medidaResponse = medidaService.salvar(medidaRequest);
 		URI uri = uriBuilder.path("/medida/{id}").buildAndExpand(medidaResponse.getId()).toUri();
 		return ResponseEntity.created(uri).body(medidaResponse);
 
 	}
-	@GetMapping("")
+	@GetMapping("/admin/medida")
 	public List<MedidaResponseGet> listar() {
 		return medidaService.listar();
 	}
 	
-	@PutMapping("")
+	@PutMapping("/admin/medida")
 	public ResponseEntity<MedidaResponse> atualizacao(
 			@RequestBody @Validated AtualizarMedidaRequest atualizarMedidaRequest) throws Exception {
 		try {

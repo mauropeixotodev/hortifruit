@@ -1,33 +1,31 @@
 package com.fpsoluctionstechs.hortfruitonline.service;
 
-import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.StatusPedidoResponse;
-import io.jsonwebtoken.lang.Collections;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.domain.Example;
-import org.springframework.stereotype.Service;
-
+import com.fpsoluctionstechs.hortfruitonline.config.exceptions.NegocioException;
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.request.EnderecoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.endereco.response.EnderecoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoAtualizacaoStatusRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoIdRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.request.PedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.PedidoResponse;
+import com.fpsoluctionstechs.hortfruitonline.controller.pedido.response.StatusPedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.request.ProdutoPedidoRequest;
 import com.fpsoluctionstechs.hortfruitonline.controller.produtoPedido.response.ProdutoPedidoResponse;
 import com.fpsoluctionstechs.hortfruitonline.enums.StatusPedido;
 import com.fpsoluctionstechs.hortfruitonline.model.*;
 import com.fpsoluctionstechs.hortfruitonline.respository.PedidoRepository;
 import com.fpsoluctionstechs.hortfruitonline.respository.ProdutoRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Example;
+import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
+import javax.transaction.Transactional;
 import java.math.BigDecimal;
-import java.util.Arrays;
-import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
+import static java.util.Arrays.asList;
 
 @Service
 public class PedidoService {
@@ -39,22 +37,27 @@ public class PedidoService {
     private PedidoRepository pedidoRepository;
     @Autowired
     private ProdutoRepository produtoRepository;
+    @Autowired
+    private ValidarPedidoService validarPedidoService;
 
     public List<PedidoResponse> listar() {
         return builderPedidoResponse(pedidoRepository.findAll());
     }
 
+    public PedidoResponse salvarPedido(PedidoRequest pedidoRequest) throws NegocioException {
+        return builderPedidoResponse(pedidoRepository.save(buildPedidoValido(pedidoRequest)));
+    }
 
-    public PedidoResponse salvarPedido(PedidoRequest pedidoRequest) {
-
-        return builderPedidoResponse(pedidoRepository.save(builderPedido(pedidoRequest)));
+    Pedido buildPedidoValido(PedidoRequest pedidoRequest) throws NegocioException{
+        Pedido pedido = builderPedido(pedidoRequest);
+        validarPedidoService.validar(pedido);
+        return pedido;
     }
 
     private List<PedidoResponse> builderPedidoResponse(List<Pedido> pedidos) {
         return pedidos.stream().map(pedido -> builderPedidoResponse(pedido)).collect(Collectors.toList());
 
     }
-
 
     private PedidoResponse builderPedidoResponse(Pedido pedido) {
 
@@ -164,8 +167,8 @@ public class PedidoService {
                 .bairro(enderecoRequest.getBairro())
                 .complemento(enderecoRequest.getComplemento())
                 .logradouro(enderecoRequest.getLogradouro())
-                .latitude(enderecoRequest.getLatitude())
-                .longitude(enderecoRequest.getLongitude())
+                .latitude(BigDecimal.valueOf(enderecoRequest.getLatitude()))
+                .longitude(BigDecimal.valueOf(enderecoRequest.getLongitude()))
                 .numero(enderecoRequest.getNumero())
                 .referencia(enderecoRequest.getReferencia())
                 .build();
@@ -192,7 +195,7 @@ public class PedidoService {
     }
 
     public List<StatusPedidoResponse> status() {
-        return Arrays.asList(StatusPedido.values()).stream().map(statusPedido ->
+        return asList(StatusPedido.values()).stream().map(statusPedido ->
                 StatusPedidoResponse.builder()
                         .key(statusPedido.name())
                         .nome(statusPedido.getNome())
