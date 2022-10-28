@@ -13,7 +13,7 @@ WORKDIR /opt/hortifruit
 
 RUN apk add maven
 
-RUN mvn clean package
+RUN mvn clean package -Pprod
 
 ENTRYPOINT [ "java", "-jar", "/opt/hortifruit/target/hortfruit-online-0.0.1-SNAPSHOT.jar"]
 
