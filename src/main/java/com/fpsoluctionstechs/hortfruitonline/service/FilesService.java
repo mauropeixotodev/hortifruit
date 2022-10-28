@@ -28,7 +28,7 @@ public class FilesService {
             root = Paths.get(diretorioUploadFile);
             if(!Files.exists(root)) Files.createDirectory(root);
         } catch (IOException e) {
-            throw new RuntimeException("Não foi possível iniciar a pasta de uploads!");
+            throw new RuntimeException("Não foi possível iniciar a pasta de uploads: "+diretorioUploadFile);
         }
     }
     public String save(MultipartFile file) {
