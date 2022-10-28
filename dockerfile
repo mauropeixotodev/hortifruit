@@ -1,10 +1,10 @@
 FROM adoptopenjdk/openjdk11:alpine
 
 ARG SPRING_PROFILES_ACTIVE=prod
-ARG DATABASE_URL=jdbc:postgresql://hortifruits.com:5432/hortifruitdev
-ARG DATABASE_USERNAME=hortifruitdev
-ARG DATABASE_PASSWORD=WMrHQv9Y
 
+ENV DATABASE_URL=jdbc:postgresql://hortifruits.com:5432/hortifruitdev
+ENV DATABASE_USERNAME=hortifruitdev
+ENV DATABASE_PASSWORD=WMrHQv9Y
 ENV SPRING_PROFILES_ACTIVE=prod
 
 COPY . /opt/hortifruit
